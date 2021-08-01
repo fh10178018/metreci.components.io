@@ -1,10 +1,10 @@
 import React from 'react';
-
+import base from 'paths.macro';
 import { Page } from './Page';
 import * as HeaderStories from './Header.stories';
 
 export default {
-  title: 'Example/Page',
+  title: `${base.replace('/src/', '')}Page`,
   component: Page,
 };
 

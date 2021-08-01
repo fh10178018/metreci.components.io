@@ -1,9 +1,11 @@
 import React from 'react';
-
 import { Button } from './Button';
+import base from 'paths.macro';
+
+console.log(base)
 
 export default {
-  title: 'Button',
+  title: `${base.replace('/src/', '')}Button`,
   component: Button,
   argTypes: {
     backgroundColor: { control: 'color' },

@@ -1,9 +1,9 @@
 import React from 'react';
-
+import base from 'paths.macro';
 import { Header } from './Header';
 
 export default {
-  title: 'Example2/Header',
+  title: `${base.replace('/src/', '')}Header`,
   component: Header,
 };
 
