@@ -5,5 +5,6 @@ import yourTheme from './myTheme';
 
 addons.setConfig({
   theme: yourTheme,
+  panelPosition: 'right',
 });
 
