@@ -3,12 +3,12 @@ import React, {
   useContext,
   useEffect,
   useImperativeHandle,
-} from 'react';
-import RcDrawer from 'rc-drawer';
-import { DrawerContext, DrawerRef, useClass, useDrawer } from './use';
-import styled from 'styled-components';
-import Header from '../Header';
-import { useMemo } from 'react';
+} from "react";
+import RcDrawer from "rc-drawer";
+import { DrawerContext, DrawerRef, useClass, useDrawer } from "./use";
+import styled from "styled-components";
+import Header from "../Header";
+import { useMemo } from "react";
 
 type OpenStatus = boolean | undefined;
 
@@ -16,11 +16,11 @@ export interface DrawerPropTypes {
   openStatus: OpenStatus;
   onRequestClose: (openStatus: OpenStatus) => void;
   onChange?: (openStatus: OpenStatus) => void;
-  drawerType?: 'full' | 'half';
+  drawerType?: "full" | "half";
   drawerHeight?: string | number;
   allowClose?: boolean;
   modalElementClass?: string;
-  direction?: 'bottom' | 'left' | 'top' | 'right';
+  direction?: "bottom" | "left" | "top" | "right";
   headTitle?: string | ReactNode;
   hasAnimation?: boolean;
   maskClosable: boolean;
@@ -129,9 +129,9 @@ const DrawerContainer = styled.div.attrs((props: { openStatus: boolean }) => {
   };
 })`
   &:after {
-    content: '';
+    content: "";
     display: ${(props) =>
-      useMemo(() => props.openStatus, [props.openStatus]) ? 'block' : 'none'};
+      useMemo(() => props.openStatus, [props.openStatus]) ? "block" : "none"};
     position: fixed;
     top: 0;
     left: 0;
@@ -149,17 +149,17 @@ const Drawer = React.forwardRef<DrawerRef, DrawerPropTypes>(
       openStatus = false,
       onRequestClose,
       onChange,
-      drawerType = 'half',
-      drawerHeight = '50vh',
+      drawerType = "half",
+      drawerHeight = "50vh",
       allowClose = true,
-      modalElementClass = '',
-      direction = 'bottom',
-      headTitle = '',
+      modalElementClass = "",
+      direction = "bottom",
+      headTitle = "",
       hasAnimation = false,
       maskClosable = true,
       children,
     },
-    ref,
+    ref
   ) => {
     const parentDrawer = useContext(DrawerContext);
     const [wrapHeight, zIndex, contentStyle, level, setVisible] = useClass(
@@ -167,7 +167,7 @@ const Drawer = React.forwardRef<DrawerRef, DrawerPropTypes>(
       drawerHeight,
       direction,
       hasAnimation,
-      parentDrawer,
+      parentDrawer
     );
     const [
       name,
@@ -181,7 +181,7 @@ const Drawer = React.forwardRef<DrawerRef, DrawerPropTypes>(
       direction,
       openStatus,
       setVisible,
-      parentDrawer,
+      parentDrawer
     );
 
     useImperativeHandle(
@@ -190,7 +190,7 @@ const Drawer = React.forwardRef<DrawerRef, DrawerPropTypes>(
         openAll,
         name,
       }),
-      [name, openAll],
+      [name, openAll]
     );
     useEffect(() => {
       openStatus && setVisible(openStatus);
@@ -200,8 +200,9 @@ const Drawer = React.forwardRef<DrawerRef, DrawerPropTypes>(
       <DrawerContext.Provider value={{ openAll, name }}>
         {!parentDrawer && allowClose && (
           <DrawerContainer
-            id='drawer-container'
-            openStatus={openStatus}></DrawerContainer>
+            id="drawer-container"
+            openStatus={openStatus}
+          ></DrawerContainer>
         )}
         <MyRcDrawer
           open={openStatus && allowClose}
@@ -217,14 +218,15 @@ const Drawer = React.forwardRef<DrawerRef, DrawerPropTypes>(
           maskClosable={maskClosable}
           showMask={openStatus && allowClose}
           handler={false}
-          ease='ease-in-out'
-          contentWrapperStyle={contentStyle}>
+          ease="ease-in-out"
+          contentWrapperStyle={contentStyle}
+        >
           <Header headTitle={headTitle} onGoBack={onClose} onClose={openAll} />
           <ContentWrapper>{children}</ContentWrapper>
         </MyRcDrawer>
       </DrawerContext.Provider>
     );
-  },
+  }
 );
 
 export default Drawer;
