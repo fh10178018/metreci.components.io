@@ -23,3 +23,20 @@ jobs:
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: storybook-static # The folder the action should deploy.
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v2
+        with:
+          # smtp 服务器地址
+          server_address: smtp.gmail.com
+          server_port: 465
+          # 账号密码
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          # 标题
+          subject: Metreci组件发布成功
+          # 发送的内容
+          body: file://README.md
+          # 目标邮箱
+          to: 1206758827@qq.com
+          from: GitHub_Bot
+          content_type: text/html
