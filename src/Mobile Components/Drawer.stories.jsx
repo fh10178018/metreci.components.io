@@ -105,7 +105,7 @@ const Template = (args) => {
 export const BaseDrawer = Template.bind({});
 
 BaseDrawer.args = {
-  allowClose: false,
+  allowClose: true,
   modalElementClass: "",
 };
 
@@ -172,7 +172,7 @@ const Template1 = (args) => {
 export const NestedDrawer = Template1.bind({});
 
 NestedDrawer.args = {
-  allowClose: false,
+  allowClose: true,
   modalElementClass: "",
   hasAnimation: true,
 };
