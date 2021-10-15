@@ -1,6 +1,6 @@
-import React from 'react';
-import { ReactNode } from 'react';
-import styled from 'styled-components';
+import React from "react";
+import { ReactNode } from "react";
+import styled from "styled-components";
 
 const PopHeader = styled.div`
   width: 100%;
@@ -31,7 +31,7 @@ const HeadTitle = styled.div`
   font-size: 17px;
   color: #333;
   text-align: center;
-  font-family: 'PingFang SC';
+  font-family: "PingFang SC";
   font-weight: 500;
   letter-spacing: 0px;
 `;
@@ -43,13 +43,13 @@ const PopHeaderPlaceholder = styled.div`
 interface HeaderPropTypes {
   headTitle: string | ReactNode;
   onClose?: (openStatus: boolean) => void;
-  onGoBack: (openStatus: boolean) => void;
+  onGoBack?: (openStatus: boolean) => void;
   customStyle?: React.CSSProperties;
   hideHeaderPlaceholder?: boolean;
 }
 
 const Header: React.FC<HeaderPropTypes> = ({
-  headTitle = '',
+  headTitle = "",
   onClose,
   onGoBack,
   customStyle,
@@ -58,14 +58,14 @@ const Header: React.FC<HeaderPropTypes> = ({
   return (
     <>
       <PopHeader style={customStyle}>
-        <PopClose onClick={() => onGoBack(false)}>←</PopClose>
+        {onGoBack ? <PopClose onClick={() => onGoBack(false)}>←</PopClose> : ""}
         <HeadTitle>{headTitle}</HeadTitle>
-        {onClose ? <PopClose onClick={() => onClose(false)}>x</PopClose> : ''}
+        {onClose ? <PopClose onClick={() => onClose(false)}>x</PopClose> : ""}
 
         {/* <span className={classes.headTitle}>{headTitle}</span> */}
       </PopHeader>
       {hideHeaderPlaceholder ? (
-        ''
+        ""
       ) : (
         <PopHeaderPlaceholder>&nbsp;</PopHeaderPlaceholder>
       )}
