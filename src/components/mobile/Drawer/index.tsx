@@ -23,7 +23,8 @@ export interface DrawerPropTypes {
   direction?: "bottom" | "left" | "top" | "right";
   headTitle?: string | ReactNode;
   hasAnimation?: boolean;
-  maskClosable: boolean;
+  maskClosable?: boolean;
+  children?: ReactNode;
 }
 
 const MyRcDrawer = styled(RcDrawer)`
