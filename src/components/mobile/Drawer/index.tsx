@@ -23,7 +23,8 @@ export interface DrawerPropTypes {
   direction?: "bottom" | "left" | "top" | "right";
   headTitle?: string | ReactNode;
   hasAnimation?: boolean;
-  maskClosable: boolean;
+  maskClosable?: boolean;
+  children?: ReactNode;
 }
 
 const MyRcDrawer = styled(RcDrawer)`
@@ -198,7 +199,7 @@ const Drawer = React.forwardRef<DrawerRef, DrawerPropTypes>(
 
     return (
       <DrawerContext.Provider value={{ openAll, name }}>
-        {!parentDrawer && allowClose && (
+        {!parentDrawer && (
           <DrawerContainer
             id="drawer-container"
             openStatus={openStatus}
