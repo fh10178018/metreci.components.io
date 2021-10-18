@@ -113,7 +113,7 @@ const MyRcDrawer = styled(RcDrawer)`
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: transparent;
+    background-color: rgb(0, 0, 0, 0);
     pointer-events: auto;
   }
 `;
@@ -138,7 +138,7 @@ const DrawerContainer = styled.div.attrs((props: { openStatus: boolean }) => {
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: #00000073;
+    background-color: rgb(101 99 99 / 56%);
     pointer-events: auto;
     z-index: 199999;
   }
