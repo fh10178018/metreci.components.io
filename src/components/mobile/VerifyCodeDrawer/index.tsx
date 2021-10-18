@@ -7,7 +7,14 @@
  * @LastEditTime: 2020-11-04 13:48:08
  */
 import { useDebounce } from "../../utils/common";
-import React, { useState, useEffect, useRef, useMemo, ReactNode } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  ReactNode,
+  useCallback,
+} from "react";
 import useLocalStorage from "react-use-localstorage";
 import Drawer from "../Drawer";
 import VerifyCodeInput from "react-verification-code-input";
@@ -121,6 +128,9 @@ const ButtonOk = styled.button`
   width: 100%;
   border-radius: 3px;
   outline: 0;
+  :disabled {
+    background-color: gray;
+  }
 `;
 
 const InfoWrapper = styled.div`
@@ -174,6 +184,7 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
     ) {
       varifyCodeInputRef.current.__clearvalues__();
     }
+    setDisabled(true);
   };
 
   const resetCodeInput = () => {
@@ -190,16 +201,14 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
     setDelay(1000);
     try {
       const getCodeRes = await getCode();
-      if (getCodeRes.result === "success") {
-        console.log(getCodeRes);
+      if (getCodeRes.result !== "success") {
         resetCodeInput();
       }
     } catch (getCodeErr) {
-      console.log(getCodeErr);
       resetCodeInput();
     }
     setIsLoading({
-      getCode: true,
+      getCode: false,
       submit: false,
     });
   }, 300);
@@ -224,18 +233,24 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
     setLeftSeconds(seconds - 1 + "");
   }, delay);
 
-  const triggerSubmit = (currentCodes: string) => {
-    onSubmit(currentCodes || codes)
-      .then((res) => {
-        if (res.result !== "success") {
-          clearCodes();
-        }
-      })
-      .catch((error) => {
-        console.log("error", error);
+  const triggerSubmit = async (currentCodes: string) => {
+    isLoading.submit = true;
+    setIsLoading(isLoading);
+    try {
+      const onSubmitRes = await onSubmit(currentCodes || codes);
+      if (onSubmitRes.result !== "success") {
         clearCodes();
-      });
+      }
+    } catch (onSubmitErr) {
+      clearCodes();
+    }
+    isLoading.submit = false;
+    setIsLoading(isLoading);
   };
+
+  const handleSubmit = useDebounce(() => {
+    triggerSubmit("");
+  }, 300);
 
   const onChangeValue = (currentCodes: string) => {
     setCodes(currentCodes);
@@ -285,6 +300,7 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
                 values={["2", "2"]}
                 onChange={onChangeValue}
                 ref={varifyCodeInputRef}
+                loading={isLoading.submit}
               />
             </VerifyCodeInputWrapper>
             <InfoWrapper>
@@ -303,12 +319,10 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
           </WrapperFix>
           <ButtonBox>
             <ButtonOk
-              disabled={disabled}
-              onClick={() => {
-                triggerSubmit("");
-              }}
+              disabled={disabled || isLoading.submit}
+              onClick={handleSubmit}
             >
-              {buttonText}
+              {isLoading.submit ? <Loading /> : buttonText}
             </ButtonOk>
           </ButtonBox>
         </Box>

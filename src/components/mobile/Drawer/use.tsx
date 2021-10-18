@@ -85,14 +85,11 @@ export const useDrawer = (
     handleClose,
     parentDrawer,
   ]);
-  const afterVisibleChange = useCallback(
-    (status) => {
-      // 动画结束复原位置,同时不显示
-      !openStatus && setVisible(false);
-      setCurDirection(direction);
-    },
-    [direction, openStatus, setVisible]
-  );
+  const afterVisibleChange = useCallback(() => {
+    // 动画结束复原位置,同时不显示
+    !openStatus && setVisible(false);
+    setCurDirection(direction);
+  }, [direction, openStatus, setVisible]);
   const openAll = useCallback(() => {
     setCurDirection("bottom");
     onRequestClose(false);

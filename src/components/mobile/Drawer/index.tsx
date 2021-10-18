@@ -199,7 +199,7 @@ const Drawer = React.forwardRef<DrawerRef, DrawerPropTypes>(
 
     return (
       <DrawerContext.Provider value={{ openAll, name }}>
-        {!parentDrawer && allowClose && (
+        {!parentDrawer && (
           <DrawerContainer
             id="drawer-container"
             openStatus={openStatus}

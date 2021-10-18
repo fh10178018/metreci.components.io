@@ -97,7 +97,7 @@ BaseVerifyCodeDrawer.args = {
   getCode: function () {
     console.log("getCode");
     return new Promise((resolve, reject) => {
-      reject({ result: "error" });
+      resolve({ result: "success" });
     });
   },
   onSubmit: function () {
