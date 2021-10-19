@@ -54,6 +54,35 @@ export function useDebounce(
     [current, func, isImmediate, wait]
   );
 }
+export function useWinSize() {
+  const [size, setSize] = useState({
+    width: document.documentElement.clientWidth,
+    height: document.documentElement.clientHeight,
+  });
+
+  const onResize = useCallback(() => {
+    setSize({
+      width: document.documentElement.clientWidth,
+      height: document.documentElement.clientHeight,
+    });
+  }, []);
+  useEffect(() => {
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, [onResize]);
+
+  return size;
+}
+
+export function usePrevious(value: any) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
 
 export function isValidKey(
   key: string | number | symbol,

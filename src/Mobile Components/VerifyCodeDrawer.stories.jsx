@@ -103,8 +103,8 @@ BaseVerifyCodeDrawer.args = {
   onSubmit: function () {
     console.log("onSubmit");
     return new Promise((resolve, reject) => {
-      resolve({ result: "onSubmit success" });
-      reject({ result: "onSubmit error" });
+      resolve({ result: "error", message: "查询失败" });
+      // reject({ result: "error" });
     });
   },
 };
