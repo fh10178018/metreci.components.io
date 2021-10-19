@@ -31,6 +31,7 @@ interface ITsExampleProps {
   onSubmit: (codes: string) => Promise<{ result: string; message?: string }>;
   onClose: (codes?: string) => {};
   classes?: any;
+  defaultErrorInfo: string;
 }
 
 const Box = styled.div`
@@ -221,6 +222,7 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
   getCodeOnShow = false,
   autoConfirm = false,
   buttonText = "提交",
+  defaultErrorInfo = "提交服务出错，请稍候再次提交",
   onSubmit,
   onClose,
 }: ITsExampleProps) => {
@@ -302,7 +304,6 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
     try {
       const onSubmitRes = await onSubmit(currentCodes || codes);
       const { result, message } = onSubmitRes;
-      console.log(result, message);
       if (result !== "success") {
         setIsError(true);
         setErrorContent(message || "");
@@ -314,8 +315,10 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
       }
     } catch (onSubmitErr) {
       setIsError(true);
+      setErrorContent(defaultErrorInfo);
       setTimeout(() => {
         setIsError(false);
+        setErrorContent("");
         clearCodes();
       }, 2000);
     }
