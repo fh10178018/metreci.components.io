@@ -6,11 +6,11 @@
  * @LastEditors: rjguan
  * @LastEditTime: 2020-11-04 13:48:08
  */
-import { useDebounce, useWinSize } from "../../utils/common";
+import { useDebounce } from "../../utils/common";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import useLocalStorage from "react-use-localstorage";
 import Drawer from "../Drawer";
-import VerifyCodeInput from "react-verification-code-input";
+import VerifyCodeInput from "../VerifyCodeInput";
 import useSetInterval from "../../utils/useSetInterval";
 import styled from "styled-components";
 
@@ -24,7 +24,7 @@ interface ITsExampleProps {
   timerTitle?: string;
   timerEnd?: () => {};
   onChangeText?: (codes: string) => {};
-  getCode: () => Promise<{ result: string }>;
+  getCode: () => Promise<{ result: string; message?: string }>;
   getCodeOnShow?: boolean;
   autoConfirm?: boolean;
   buttonText?: string;
@@ -50,7 +50,7 @@ const SubTitle = styled.div`
   line-height: 23px;
   font-weight: normal;
   min-height: 19px;
-  margin: 35px 20px 0 20px;
+  margin: 35px 20px 20px;
   overflow-y: auto;
   word-wrap: break-word;
   word-break: normal;
@@ -99,7 +99,7 @@ const VerifyCodeInputWrapper = styled.div.attrs(
 
 const TimeButton = styled.button`
   background: rgb(0, 0, 0, 0);
-  text-align: left;
+  text-align: right;
   font-size: 13px;
   font-weight: normal;
   height: 30px;
@@ -122,33 +122,6 @@ const WrapperFix = styled.div`
   flex: 1;
   padding: 0 10px;
 `;
-const VerifyCodeComponent = styled(VerifyCodeInput).attrs(
-  (props: { isError: boolean }) => {
-    return {
-      isError: props.isError,
-    };
-  }
-)`
-  .styles_react-code-input__CRulA > input {
-    ${(props) =>
-      useMemo(() => props.isError, [props.isError]) ? "color: #e74c3c" : ""};
-    background: #f0f0f0;
-    padding: 6px;
-    background-clip: content-box;
-    border: none;
-    border-radius: 5px;
-  }
-  .styles_react-code-input__CRulA > input:first-child {
-    border-radius: 5px;
-  }
-  .styles_react-code-input__CRulA > input:focus {
-    border: none;
-  }
-  .styles_react-code-input__CRulA > input:last-child {
-    border-radius: 5px;
-    border-right: none;
-  }
-`;
 
 const ButtonOk = styled.button`
   display: block;
@@ -169,15 +142,20 @@ const ButtonOk = styled.button`
 
 const InfoWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  width: 310px;
+  margin: 0 auto;
 `;
 
-const ErrorInfoWrapper = styled.div.attrs((props: { showStatus: boolean }) => {
-  return {
-    showStatus: props.showStatus,
-  };
-})`
+const ResInfoWrapper = styled.div.attrs(
+  (props: { showStatus: boolean; isError: boolean }) => {
+    return {
+      showStatus: props.showStatus,
+      isError: props.isError,
+    };
+  }
+)`
   height: 30px;
   line-height: 30px;
   position: absolute;
@@ -185,11 +163,14 @@ const ErrorInfoWrapper = styled.div.attrs((props: { showStatus: boolean }) => {
   left: 0;
   right: 0;
   line-height: 30px;
-  color: #ff6f00;
+  color: ${(props) =>
+    useMemo(() => props.isError, [props.isError]) ? "#ff6f00" : "#1677ff"};
   font-size: 14px;
   padding: 0 15px;
-  background-color: #fff9ed;
-  border-color: #fff3e9;
+  background-color: ${(props) =>
+    useMemo(() => props.isError, [props.isError]) ? "#fff9ed" : "#d0e4ff"};
+  border-color: ${(props) =>
+    useMemo(() => props.isError, [props.isError]) ? "#fff3e9" : "#bcd8ff"};
   border: 1px solid var(--border-color);
   border-left: none;
   border-right: none;
@@ -202,10 +183,10 @@ const ErrorInfoWrapper = styled.div.attrs((props: { showStatus: boolean }) => {
       : "translateY(-100%)"};
 `;
 
-const ErrorContent = styled.span`
+const ResInfoContent = styled.span`
   white-space: nowrap;
   height: fit-content;
-  color: #ff6f00;
+  color: inherit;
 `;
 
 const VerifyCodePanel: React.FC<ITsExampleProps> = ({
@@ -226,7 +207,8 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
   onSubmit,
   onClose,
 }: ITsExampleProps) => {
-  const [leftSeconds, setLeftSeconds] = useLocalStorage(name, timerCount + "");
+  const [leftSeconds, setLeftSeconds] = useState(timerCount);
+  const [getCodeTimerStamp, setGetCodeTimerStamp] = useLocalStorage(name, "");
   const [disabled, setDisabled] = useState(true);
   const [codes, setCodes] = useState("");
   const [isError, setIsError] = useState(false);
@@ -235,45 +217,72 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
   const submitIsLoading = useRef(false);
   const varifyCodeInputRef: { current: any } = useRef();
   const drawerRef: { current: any } = useRef();
-  const winSize = useWinSize();
 
-  const [errorContent, setErrorContent] = useState("");
-  const showErrorInfo = useMemo(() => errorContent !== "", [errorContent]);
-  const inputLen = useMemo(() => (winSize.width - 20) / length, [
-    winSize,
-    length,
-  ]);
+  const [infoContent, setInfoContent] = useState("");
+  const [isErrorInfo, setIsErrorInfoType] = useState(false);
+  const showInfo = useMemo(() => infoContent !== "", [infoContent]);
 
   const clearCodes = () => {
     if (
       varifyCodeInputRef &&
       varifyCodeInputRef.current &&
-      varifyCodeInputRef.current.__clearvalues__
+      varifyCodeInputRef.current.clearCodes
     ) {
-      varifyCodeInputRef.current.__clearvalues__();
+      varifyCodeInputRef.current.clearCodes();
     }
     setDisabled(true);
   };
-
+  const inputBlur = () => {
+    if (
+      varifyCodeInputRef &&
+      varifyCodeInputRef.current &&
+      varifyCodeInputRef.current.inputBlur
+    ) {
+      varifyCodeInputRef.current.inputBlur();
+    }
+  };
   const resetCodeInput = () => {
     clearCodes();
-    setLeftSeconds(-1 + "");
+    setLeftSeconds(-1);
     setDelay(null);
   };
 
   const onGetCode = useDebounce(async () => {
-    if (+leftSeconds <= 0) {
-      setLeftSeconds(timerCount + "");
+    const nowTime = new Date().getTime();
+    if (getCodeTimerStamp === "") {
+      setGetCodeTimerStamp(nowTime + 6000 + "");
+    }
+    const timeRemain = parseInt((+getCodeTimerStamp - nowTime) / 1000 + "");
+    if (timeRemain <= 0) {
+      setLeftSeconds(timerCount);
+      setGetCodeTimerStamp(nowTime + timerCount * 1000 + "");
       getCodeIsLoading.current = true;
       clearCodes();
       setDelay(1000);
       try {
         const getCodeRes = await getCode();
-        if (getCodeRes.result !== "success") {
+        const { result, message } = getCodeRes;
+        if (result !== "success") {
+          setIsErrorInfoType(true);
+          setInfoContent(message || "");
           resetCodeInput();
+          setTimeout(() => {
+            setInfoContent("");
+          }, 2000);
+        } else {
+          setIsErrorInfoType(false);
+          setInfoContent(message || "");
+          setTimeout(() => {
+            setInfoContent("");
+          }, 2000);
         }
       } catch (getCodeErr) {
+        setIsErrorInfoType(true);
+        setInfoContent(defaultErrorInfo || "");
         resetCodeInput();
+        setTimeout(() => {
+          setInfoContent("");
+        }, 2000);
       }
       getCodeIsLoading.current = false;
     }
@@ -284,6 +293,15 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
       onGetCode();
     }
   }, [visible, getCodeOnShow]);
+
+  useEffect(() => {
+    if (getCodeTimerStamp !== "") {
+      const nowTime = new Date().getTime();
+      const timeRemain = parseInt((+getCodeTimerStamp - nowTime) / 1000 + "");
+      setLeftSeconds(timeRemain > 0 ? timeRemain : -1);
+      if (timeRemain > 0) setDelay(1000);
+    }
+  }, []);
 
   useSetInterval(() => {
     const seconds = +leftSeconds;
@@ -296,7 +314,7 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
         setDelay(null);
       };
     }
-    setLeftSeconds(seconds - 1 + "");
+    setLeftSeconds(seconds - 1);
   }, delay);
 
   const triggerSubmit = async (currentCodes: string) => {
@@ -305,20 +323,28 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
       const onSubmitRes = await onSubmit(currentCodes || codes);
       const { result, message } = onSubmitRes;
       if (result !== "success") {
+        setIsErrorInfoType(true);
         setIsError(true);
-        setErrorContent(message || "");
+        setInfoContent(message || "");
         setTimeout(() => {
           setIsError(false);
-          setErrorContent("");
+          setInfoContent("");
           clearCodes();
+        }, 2000);
+      } else {
+        setIsErrorInfoType(false);
+        setInfoContent(message || "");
+        setTimeout(() => {
+          setInfoContent("");
         }, 2000);
       }
     } catch (onSubmitErr) {
+      setIsErrorInfoType(true);
       setIsError(true);
-      setErrorContent(defaultErrorInfo);
+      setInfoContent(defaultErrorInfo);
       setTimeout(() => {
         setIsError(false);
-        setErrorContent("");
+        setInfoContent("");
         clearCodes();
       }, 2000);
     }
@@ -360,28 +386,26 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
           if (onClose) {
             onClose();
           }
+          inputBlur();
           window.scrollTo(0, 0); // document.body.scrollHeight);
         }
       }}
       ref={drawerRef}
     >
       <Box>
-        <ErrorInfoWrapper showStatus={showErrorInfo}>
-          <ErrorIcon />
-          <ErrorContent>{errorContent}</ErrorContent>
-        </ErrorInfoWrapper>
+        <ResInfoWrapper showStatus={showInfo} isError={isErrorInfo}>
+          {isErrorInfo ? <ErrorIcon /> : <SuccessIcon />}
+          <ResInfoContent>{infoContent}</ResInfoContent>
+        </ResInfoWrapper>
         <SubTitle>{subTitle}</SubTitle>
         <WrapperFix>
           <VerifyCodeInputWrapper isError={isError}>
-            <VerifyCodeComponent
-              fields={length}
-              fieldWidth={inputLen}
-              fieldHeight={inputLen}
-              onChange={onChangeValue}
+            <VerifyCodeInput
+              length={length}
+              onChangeValue={onChangeValue}
               ref={varifyCodeInputRef}
               disabled={isError}
               isError={isError}
-              autoFocus={visible}
             />
           </VerifyCodeInputWrapper>
           <InfoWrapper>
@@ -465,6 +489,23 @@ const ErrorIcon = () => (
       d="M549.28 579.584c-2.528 27.584-20.064 40.48-37.376 40.48-12.864 0 0 0 0 0-16.448-3.104-29.216-10.112-34.816-38.016l-22.624-260.8c0-26.208 31.872-49.408 58.912-49.408s56.16 24.256 56.16 50.432L549.28 579.584zM512 654.176c-27.04 0-48.992 21.92-48.992 48.992s21.92 49.024 48.992 49.024 48.992-21.952 48.992-49.024c0-27.04-21.92-48.992-48.992-48.992zM899.808 512c0 214.176-173.6 387.776-387.84 387.776-214.144 0-387.776-173.6-387.776-387.776s173.632-387.808 387.776-387.808c214.208 0 387.84 173.632 387.84 387.808zM828 512c0-174.528-141.472-315.968-316-315.968S196.032 337.472 196.032 512c0 174.496 141.44 315.968 315.968 315.968S828 686.496 828 512z"
       p-id="4382"
     ></path>
+  </Spin2>
+);
+
+const SuccessIcon = () => (
+  <Spin2
+    width="1.3em"
+    height="1.3em"
+    viewBox="0 0 256 256"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <style />
+    </defs>
+    <path
+      d="M154.406 108.505c10.088 4.494 13.2 11.605 13.2 19.567 0 7.465-3.112 15.073-13.2 19.567l4.505 11.914c12.964-5.791 21.9-17.69 21.9-31.48 0-13.8-8.936-25.698-21.915-31.482l-4.49 11.914zm22.011-27.394c18.475 13.52 26.398 33.253 26.398 46.961 0 12.72-7.571 31.896-26.405 46.961l5.003 11.778C202.331 173.706 216 152.314 216 128.065c0-24.235-13.669-45.62-34.587-58.74l-5.004 11.786h.008zm-88.323 4.056c-3.991 2.338-7.872 3.77-17.168 3.77H49.025c-4.175 0-9.025 1.426-9.025 7.85v62.525c0 7.947 5.965 7.895 8.819 7.895h22.099c9.303 0 11.57.61 16.912 3.657 10.617 6.054 29.927 20.554 39.913 27.522 3.346 2.345 9.061.942 9.061-3.77V62.025c0-6.854-6.757-6.258-9.868-3.928-9.912 7.465-29.165 21.377-38.842 27.07z"
+      fill="#1677ff"
+    />
   </Spin2>
 );
 
