@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, useImperativeHandle } from "react";
 import styled from "styled-components";
-import { useWinSize } from "../../utils/common";
 
 const judgeDeviceType = (function () {
   let ua = "";
@@ -134,18 +133,17 @@ const VerifyCodeInput = React.forwardRef<RefType, ITsExampleProps>(
     const [codes, setCodes] = useState("");
     const [isFocus, setIsFocus] = useState(false);
     const codeRef: any = useRef();
-    const winSize = useWinSize();
 
     // 计算需要提升的元素 ： dom的位置
-    const movePanelIOS = (enevt: string) => {
+    const movePanelIOS = (event: string) => {
       if (judgeDeviceType.isIOS) {
         const dom = codeRef.current.closest(".css-3pxmmn");
         if (dom) {
-          if (enevt === "blur") {
+          if (event === "blur") {
             dom.style.paddingBottom = 0;
           }
 
-          if (enevt === "focus") {
+          if (event === "focus") {
             return setTimeout(() => {
               dom.style.paddingBottom = "250px";
             }, 333);

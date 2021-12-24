@@ -13,7 +13,7 @@ export default {
       type: "boolean",
       control: false,
     },
-    onRequestClose: {
+    onHeaderClose: {
       description: "点击返回、关闭或者遮罩时触发,用于双向绑定，控制openStatus",
       require: true,
     },
@@ -48,6 +48,15 @@ export default {
     },
     maskClosable: {
       description: "点击弹层是否允许关闭",
+      defaultValue: true,
+    },
+    showBackIcon: {
+      description: "展示返回按钮",
+      defaultValue: true,
+    },
+    showCloseIcon: {
+      description: "展示关闭按钮",
+      defaultValue: true,
     },
     onChange: {
       description: "每次openStatus发生变化都会触发该回调函数",
@@ -69,7 +78,11 @@ const Template = (args) => {
       <Drawer
         {...args}
         openStatus={status}
-        onRequestClose={() => setStatus(false)}
+        onHeaderClose={() => {
+          args.onHeaderClose(false);
+          setStatus(false);
+        }}
+        onHeaderGoBack={undefined}
       >
         <ul>
           <li>
@@ -107,76 +120,4 @@ export const BaseDrawer = Template.bind({});
 BaseDrawer.args = {
   allowClose: true,
   modalElementClass: "",
-};
-
-const Template1 = (args) => {
-  const [parentStatus, setParentStatus] = useState(false);
-  const [childStatus, setChildStatus] = useState(false);
-  const [grandsonStatus, setGrandsonStatus] = useState(false);
-  const grandsonRef = useRef(null);
-  return (
-    <>
-      <div style={{ textAlign: "center" }}>
-        <h5>请打开hasAnimation观看过渡效果</h5>
-        <button onClick={() => setParentStatus(true)}>
-          <strong>唤醒 Drawer 一级组件</strong>
-        </button>
-      </div>
-      <Drawer
-        {...args}
-        openStatus={parentStatus}
-        onRequestClose={() => setParentStatus(false)}
-      >
-        <div style={{ textAlign: "center" }}>
-          <h5>当前是 Drawer 一级组件</h5>
-          <button onClick={() => setChildStatus(true)}>
-            <strong>唤醒 Drawer 二级组件</strong>
-          </button>
-        </div>
-        <Drawer
-          {...args}
-          openStatus={childStatus}
-          direction="left"
-          onRequestClose={() => setChildStatus(false)}
-        >
-          <div style={{ textAlign: "center" }}>
-            <h5>当前是 Drawer 二级组件</h5>
-            <button onClick={() => setGrandsonStatus(true)}>
-              <strong>唤醒 Drawer 三级组件</strong>
-            </button>
-            <Drawer
-              {...args}
-              openStatus={grandsonStatus}
-              direction="left"
-              ref={grandsonRef}
-              onRequestClose={() => setGrandsonStatus(false)}
-            >
-              <div style={{ textAlign: "center" }}>
-                <h5>当前是 Drawer 三级组件</h5>
-                <button
-                  onClick={() => {
-                    grandsonRef.current && grandsonRef.current.openAll();
-                  }}
-                >
-                  <strong>关闭所有组件</strong>
-                </button>
-              </div>
-            </Drawer>
-          </div>
-        </Drawer>
-      </Drawer>
-    </>
-  );
-};
-
-export const NestedDrawer = Template1.bind({});
-
-NestedDrawer.args = {
-  allowClose: true,
-  modalElementClass: "",
-  hasAnimation: true,
-};
-
-NestedDrawer.parameters = {
-  controls: { exclude: ["direction"] },
 };

@@ -97,13 +97,13 @@ BaseVerifyCodeDrawer.args = {
   getCode: function () {
     console.log("getCode");
     return new Promise((resolve, reject) => {
-      resolve({ result: "success", message: "查询成功" });
+      resolve({ result: "success", message: "" });
     });
   },
   onSubmit: function () {
     console.log("onSubmit");
     return new Promise((resolve, reject) => {
-      resolve({ result: "error", message: "提交失败" });
+      resolve({ result: "success", message: "提交失败" });
       // reject({ result: "error" });
     });
   },

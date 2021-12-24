@@ -15,5 +15,5 @@ export {
   maskZIndex,
   loadingZIndex,
   alertZIndex,
-  toastZIndex
+  toastZIndex,
 };

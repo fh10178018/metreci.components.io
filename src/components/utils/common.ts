@@ -25,7 +25,6 @@ export function useDebounce(
   func: Function,
   wait: number,
   isImmediate: boolean = false,
-  deep = []
 ) {
   let a: IPoint = { func, timer: null };
   const { current } = useRef(a);
@@ -76,18 +75,32 @@ export function useWinSize() {
   return size;
 }
 
-export function usePrevious(value: any) {
-  const ref = useRef();
+function isDef(v: any) {
+  return v !== undefined && v !== null;
+}
+
+export function isPromise(val: any) {
+  return (
+    isDef(val) &&
+    typeof val.then === "function" &&
+    typeof val.catch === "function"
+  );
+}
+
+export function usePrevious<S>(value: S): S {
+  const ref = useRef<S>();
   useEffect(() => {
     ref.current = value;
   });
-  return ref.current;
+  return ref.current as S;
 }
 
-export function isValidKey(
-  key: string | number | symbol,
-  object: object
-): key is keyof typeof object {
+type K = string | number | symbol;
+interface T {
+  [index: K]: any;
+}
+
+export function isValidKey(key: K, object: T) {
   if (key === undefined) return false;
   return key in object;
 }

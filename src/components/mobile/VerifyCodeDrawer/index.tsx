@@ -56,45 +56,12 @@ const SubTitle = styled.div`
   word-break: normal;
 `;
 
-const VerifyCodeInputWrapper = styled.div.attrs(
-  (props: { isError: boolean }) => {
-    return {
-      isError: props.isError,
-    };
-  }
-)`
+const VerifyCodeInputWrapper = styled.div`
   width: 100%;
   flex: 7;
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: ${(props) =>
-    useMemo(() => props.isError, [props.isError])
-      ? "Tada 1s both infinite"
-      : "none"};
-  @keyframes Tada {
-    0% {
-      transform: translateX(0);
-    }
-    10%,
-    20% {
-      transform: translateX(3px);
-    }
-    30%,
-    50%,
-    70%,
-    90% {
-      transform: translateX(-3px);
-    }
-    40%,
-    60%,
-    80% {
-      transform: translateX(3px);
-    }
-    100% {
-      transform: translateX(0);
-    }
-  }
 `;
 
 const TimeButton = styled.button`
@@ -213,10 +180,9 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
   const [codes, setCodes] = useState("");
   const [isError, setIsError] = useState(false);
   const [delay, setDelay] = useState(null as any);
-  const getCodeIsLoading = useRef(false);
+  const [getCodeIsLoading, setCodeIsLoading] = useState(false);
   const submitIsLoading = useRef(false);
   const varifyCodeInputRef: { current: any } = useRef();
-  const drawerRef: { current: any } = useRef();
 
   const [infoContent, setInfoContent] = useState("");
   const [isErrorInfo, setIsErrorInfoType] = useState(false);
@@ -256,7 +222,7 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
     if (timeRemain <= 0) {
       setLeftSeconds(timerCount);
       setGetCodeTimerStamp(nowTime + timerCount * 1000 + "");
-      getCodeIsLoading.current = true;
+      setCodeIsLoading(true);
       clearCodes();
       setDelay(1000);
       try {
@@ -264,27 +230,34 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
         const { result, message } = getCodeRes;
         if (result !== "success") {
           setIsErrorInfoType(true);
+          setLeftSeconds(-1);
+          setGetCodeTimerStamp("");
           setInfoContent(message || "");
           resetCodeInput();
           setTimeout(() => {
+            setCodeIsLoading(false);
             setInfoContent("");
           }, 2000);
         } else {
           setIsErrorInfoType(false);
           setInfoContent(message || "");
           setTimeout(() => {
+            setCodeIsLoading(false);
             setInfoContent("");
           }, 2000);
         }
       } catch (getCodeErr) {
+        setLeftSeconds(-1);
+        setGetCodeTimerStamp("");
         setIsErrorInfoType(true);
         setInfoContent(defaultErrorInfo || "");
         resetCodeInput();
+
         setTimeout(() => {
+          setCodeIsLoading(false);
           setInfoContent("");
         }, 2000);
       }
-      getCodeIsLoading.current = false;
     }
   }, 300);
 
@@ -380,8 +353,7 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
       openStatus={visible}
       headTitle={title}
       drawerHeight={70}
-      hasAnimation
-      onRequestClose={() => {
+      onHeaderClose={() => {
         if (typeof window !== "undefined") {
           if (onClose) {
             onClose();
@@ -390,7 +362,6 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
           window.scrollTo(0, 0); // document.body.scrollHeight);
         }
       }}
-      ref={drawerRef}
     >
       <Box>
         <ResInfoWrapper showStatus={showInfo} isError={isErrorInfo}>
@@ -399,7 +370,7 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
         </ResInfoWrapper>
         <SubTitle>{subTitle}</SubTitle>
         <WrapperFix>
-          <VerifyCodeInputWrapper isError={isError}>
+          <VerifyCodeInputWrapper>
             <VerifyCodeInput
               length={length}
               onChangeValue={onChangeValue}
@@ -410,10 +381,10 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
           </VerifyCodeInputWrapper>
           <InfoWrapper>
             <TimeButton
-              disabled={showCountDown || getCodeIsLoading.current}
+              disabled={showCountDown || getCodeIsLoading}
               onClick={onGetCode}
             >
-              {getCodeIsLoading.current ? (
+              {getCodeIsLoading ? (
                 <Loading color="#1899f2" isGetCode />
               ) : (
                 timerTitle + (showCountDown ? `(${leftSeconds}S)` : "")
@@ -423,7 +394,7 @@ const VerifyCodePanel: React.FC<ITsExampleProps> = ({
         </WrapperFix>
         <ButtonBox>
           <ButtonOk
-            disabled={disabled || submitIsLoading.current}
+            disabled={disabled || submitIsLoading.current || isError}
             onClick={handleSubmit}
           >
             {submitIsLoading.current ? <Loading /> : buttonText}
@@ -440,7 +411,7 @@ const LoadingWrapper = styled.div.attrs((props: { isGetCode: boolean }) => {
   };
 })`
   text-align: ${(props) =>
-    useMemo(() => props.isGetCode, [props.isGetCode]) ? "left" : "center"}; ;
+    useMemo(() => props.isGetCode, [props.isGetCode]) ? "right" : "center"}; ;
 `;
 const Spin = styled.svg`
   display: inline-block;

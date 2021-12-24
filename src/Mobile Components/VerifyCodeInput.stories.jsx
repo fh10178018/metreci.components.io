@@ -1,7 +1,6 @@
 import VerifyCodeInput from "../components/mobile/VerifyCodeInput/index.tsx";
 import base from "paths.macro";
 import { parameters } from "./utils";
-import { useState } from "react";
 
 export default {
   title: `${base.replace("/src/", "")}VerifyCodeInput`,
