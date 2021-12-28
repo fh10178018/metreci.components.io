@@ -10,7 +10,6 @@ import { DrawerGroupContextProvider } from "./context";
 import { drawerZIndex } from "../constants/zIndexManage";
 import { useRouter } from "./use";
 import { spring, TransitionMotion } from "react-motion";
-import { MittProvider } from "../EventBus";
 
 import {
   FadeWrapper,
@@ -50,12 +49,12 @@ interface PropTypes {
 // 主要处理组件内容左右过渡的滑动动画效果
 const SlideMotion = ({ children }: { children: JSX.Element[] }) => {
   const willEnter = () => ({
-    x: 100,
+    x: children.length === 1 ? 0 : 100,
     y: 0,
     opacity: 0,
   });
   const willLeave = () => ({
-    opacity: spring(0, { precision: 100 }),
+    opacity: 0,
   });
   const getStyles = () => {
     return Children.map(curChildren, (child, index) => ({
@@ -68,9 +67,7 @@ const SlideMotion = ({ children }: { children: JSX.Element[] }) => {
             : 0
         ),
         y: 0,
-        opacity: spring(+(children.length - 1 === index), {
-          precision: 0.01,
-        }),
+        opacity: +(children.length - 1 === index),
       },
     }));
   };
@@ -84,8 +81,9 @@ const SlideMotion = ({ children }: { children: JSX.Element[] }) => {
     if (!initFlag) {
       // 初始化不会执行，后续render执行
       if (previousChildren.length > children.length) {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           setCurChildren(children);
+          clearTimeout(timer);
         }, 500);
       } else {
         setCurChildren(children);
@@ -193,12 +191,6 @@ const HalfRouteItem = ({
 
   return (
     <>
-      {/* <Mask
-        zIndex={(routeList.slice(-1)[0]?.zIndex || defaultZIndex) - 1}
-        visible={routeList.length > 0}
-        callBack={handlePop}
-        disabled
-      /> */}
       <BackgroundMotion
         isActive={routeList.length > 0}
         height={routeList.slice(-1)[0]?.drawerHeight || 0}
@@ -206,7 +198,14 @@ const HalfRouteItem = ({
       >
         <SlideMotion>
           {routeList.map((Item, index) => {
-            let { Component, title, param, showBackIcon, showCloseIcon } = Item;
+            let {
+              Component,
+              title,
+              param,
+              showBackIcon,
+              showCloseIcon,
+              isShowHeader,
+            } = Item;
             param = {
               ...param,
               router: {
@@ -225,14 +224,16 @@ const HalfRouteItem = ({
 
             return (
               <RouteBox key={Item.name}>
-                <Header
-                  headTitle={title}
-                  onGoBack={curPop}
-                  headerNoBorder
-                  onClose={curClose}
-                  showBackIcon={showBackIcon}
-                  showCloseIcon={showCloseIcon}
-                />
+                {isShowHeader && (
+                  <Header
+                    headTitle={title}
+                    onGoBack={curPop}
+                    headerNoBorder
+                    onClose={curClose}
+                    showBackIcon={showBackIcon}
+                    showCloseIcon={showCloseIcon}
+                  />
+                )}
                 <ChildrenWrapper>
                   <Component {...param} />
                 </ChildrenWrapper>
@@ -281,8 +282,9 @@ const RightSlideMotion = ({
     if (!initFlag) {
       // 初始化不会执行，后续render执行
       if (previousChildren.length > children.length) {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           setCurChildren(children);
+          clearTimeout(timer);
         }, 500);
       } else {
         setCurChildren(children);
@@ -344,7 +346,14 @@ const FullRouteItem = ({
         zIndex={routeList.slice(-1)[0]?.zIndex || defaultZIndex}
       >
         {routeList.map((Item, index) => {
-          let { Component, title, param, showBackIcon, showCloseIcon } = Item;
+          let {
+            Component,
+            title,
+            param,
+            showBackIcon,
+            showCloseIcon,
+            isShowHeader,
+          } = Item;
           param = {
             ...param,
             router: {
@@ -363,14 +372,16 @@ const FullRouteItem = ({
 
           return (
             <RouteBox key={Item.name}>
-              <Header
-                headTitle={title}
-                onGoBack={curPop}
-                headerNoBorder
-                onClose={curClose}
-                showBackIcon={showBackIcon}
-                showCloseIcon={showCloseIcon}
-              />
+              {isShowHeader && (
+                <Header
+                  headTitle={title}
+                  onGoBack={curPop}
+                  headerNoBorder
+                  onClose={curClose}
+                  showBackIcon={showBackIcon}
+                  showCloseIcon={showCloseIcon}
+                />
+              )}
               <ChildrenWrapper>
                 <Component {...param} />
               </ChildrenWrapper>
@@ -397,46 +408,44 @@ const RouterPageProvider: React.FC<RouterPageGroupProps> = ({
     fullRouteList,
   } = useRouter(routes);
   return (
-    <MittProvider>
-      <DrawerGroupContextProvider
-        value={{
-          push,
-          pop,
-          replace,
-          clear: clearAllRouter,
-          clearHalfRouter: clearHalfRouter,
-          clearFullRouter: clearFullRouter,
-          history: {
-            half: halfRouteList,
-            full: fullRouteList,
-          },
-        }}
-      >
-        {children}
-        <div>
-          <FullRouteItem
-            routeList={fullRouteList || []}
-            defaultZIndex={
-              (halfRouteList.slice(-1)[0]?.zIndex || drawerZIndex) + 1
-            }
-            pop={pop}
-            clear={clearFullRouter}
-            replace={replace}
-            push={push}
-          />
-          <HalfRouteItem
-            routeList={halfRouteList || []}
-            defaultZIndex={
-              (halfRouteList.slice(-1)[0]?.zIndex || drawerZIndex) + 1
-            }
-            pop={pop}
-            clear={clearHalfRouter}
-            replace={replace}
-            push={push}
-          />
-        </div>
-      </DrawerGroupContextProvider>
-    </MittProvider>
+    <DrawerGroupContextProvider
+      value={{
+        push,
+        pop,
+        replace,
+        clear: clearAllRouter,
+        clearHalfRouter: clearHalfRouter,
+        clearFullRouter: clearFullRouter,
+        history: {
+          half: halfRouteList,
+          full: fullRouteList,
+        },
+      }}
+    >
+      {children}
+      <div>
+        <FullRouteItem
+          routeList={fullRouteList || []}
+          defaultZIndex={
+            (halfRouteList.slice(-1)[0]?.zIndex || drawerZIndex) + 1
+          }
+          pop={pop}
+          clear={clearFullRouter}
+          replace={replace}
+          push={push}
+        />
+        <HalfRouteItem
+          routeList={halfRouteList || []}
+          defaultZIndex={
+            (halfRouteList.slice(-1)[0]?.zIndex || drawerZIndex) + 1
+          }
+          pop={pop}
+          clear={clearHalfRouter}
+          replace={replace}
+          push={push}
+        />
+      </div>
+    </DrawerGroupContextProvider>
   );
 };
 

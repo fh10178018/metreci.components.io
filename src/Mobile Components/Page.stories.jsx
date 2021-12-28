@@ -14,7 +14,6 @@ export default {
 };
 
 const Page1 = (param) => {
-  console.log("page1");
   return (
     <div>
       <button
@@ -45,11 +44,9 @@ const Page1 = (param) => {
 };
 
 const Page2 = (param) => {
-  console.log("page2");
   return <strong>page2:{param.age}</strong>;
 };
 const Page3 = (param) => {
-  console.log("page3");
   return (
     <div style={{ background: "blue" }}>
       <button
@@ -78,7 +75,6 @@ const Page3 = (param) => {
   );
 };
 const Page4 = (param) => {
-  console.log("page4");
   return (
     <div style={{ background: "blue" }}>
       <button
@@ -108,7 +104,6 @@ const Page4 = (param) => {
 };
 
 const PageMain = () => {
-  console.log("pageMain");
   const { push } = useContext(RouterPageContext);
   return (
     <div style={{ textAlign: "center", background: "blue" }}>

@@ -20,6 +20,7 @@ export interface RouterProp {
   zIndex?: number;
   showBackIcon?: boolean;
   showCloseIcon?: boolean;
+  isShowHeader?: boolean;
 }
 
 export type RoutesPropTypes = RouterProp[];
@@ -36,6 +37,7 @@ export interface RouterPushProp {
   title?: ReactNode;
   showBackIcon?: boolean;
   showCloseIcon?: boolean;
+  isShowHeader?: boolean;
 }
 
 export const RouterPageContext = Context;

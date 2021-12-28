@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Maskwrapper = styled.div`
+const MaskWrapper = styled.div`
   top: 0;
   left: 0;
   position: fixed;
@@ -21,4 +21,4 @@ const MaskBox = styled.div`
   transition: opacity 500ms ease-in-out;
 `;
 
-export { Maskwrapper, MaskBox };
+export { MaskWrapper, MaskBox };

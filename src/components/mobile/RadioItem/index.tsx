@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { CheckIcon, SquareCheckIcon, SquareUnCheckIcon } from "../ActionIcon";
+import ActionIcon from "../ActionIcon";
 import {
   RadioBox,
   RadioChecked,
@@ -8,6 +8,8 @@ import {
   RadioCheckedIcon,
   RadioWrapper,
 } from "./styled";
+
+const { CheckIcon, SquareCheckIcon, SquareUnCheckIcon } = ActionIcon;
 
 interface RadioItemProps {
   checked?: boolean;

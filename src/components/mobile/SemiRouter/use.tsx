@@ -6,24 +6,7 @@ if (typeof window !== "undefined" && !window.drawerZIndex) {
   window.drawerZIndex = drawerZIndex;
 }
 
-type RouteListPropTypes = {
-  [key: string]: RoutesPropTypes;
-};
-
-function FilterObject(obj: any, key: string): any {
-  const keys = Object.keys(obj);
-  const filterKeys = keys.filter((item) => item !== key);
-  const res: {
-    [key: string]: any;
-  } = {};
-  filterKeys.forEach((item) => {
-    res[key] = obj[key];
-  });
-  return res;
-}
-
 const useRouter = (routes: RoutesPropTypes) => {
-  const [routeList, setRouteList] = useState<RouteListPropTypes>({});
   const [halfRouteList, setHalfRouteList] = useState<RoutesPropTypes>([]);
   const [fullRouteList, setFullRouteList] = useState<RoutesPropTypes>([]);
   const [newPopTypeArray, setNewPopTypeArray] = useState<SemiRouteType[]>([]);
@@ -35,6 +18,7 @@ const useRouter = (routes: RoutesPropTypes) => {
     title,
     showBackIcon = true,
     showCloseIcon = true,
+    isShowHeader = true,
   }: RouterPushProp) => {
     const curRoute = routes.find((r) => r.name === name);
     if (!curRoute) return undefined;
@@ -48,6 +32,7 @@ const useRouter = (routes: RoutesPropTypes) => {
       zIndex: ++window.drawerZIndex,
       showBackIcon,
       showCloseIcon,
+      isShowHeader,
     };
     setNewPopTypeArray([...newPopTypeArray, newRoute.type]);
     return newRoute;
@@ -60,6 +45,7 @@ const useRouter = (routes: RoutesPropTypes) => {
     title,
     showBackIcon,
     showCloseIcon,
+    isShowHeader,
   }: RouterPushProp): void => {
     const newRoute = createNewRoute({
       name,
@@ -68,85 +54,45 @@ const useRouter = (routes: RoutesPropTypes) => {
       title,
       showBackIcon,
       showCloseIcon,
+      isShowHeader,
     });
     if (newRoute) {
       if (newRoute.type === "half") {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           setHalfRouteList([...halfRouteList, newRoute]);
+          clearTimeout(timer);
         }, 0);
       }
       if (newRoute.type === "full") {
-        setFullRouteList([...fullRouteList, newRoute]);
-      }
-      // 尝试新的router方法
-      const FilterPop = newPopTypeArray.filter(
-        (item, index) => item !== newPopTypeArray[index + 1]
-      );
-      const KeyName = newRoute.type + FilterPop.length;
-      const curRoutes = routeList[KeyName];
-      if (!curRoutes) {
-        setTimeout(() => {
-          setRouteList({
-            ...routeList,
-            KeyName: [newRoute],
-          });
-        }, 0);
-      } else {
-        setTimeout(() => {
-          setRouteList({
-            ...routeList,
-            KeyName: [...curRoutes, newRoute],
-          });
+        const timer = setTimeout(() => {
+          setFullRouteList([...fullRouteList, newRoute]);
+          clearTimeout(timer);
         }, 0);
       }
-      console.log(routeList);
     } else {
       console.error(`No route named '${name}' was found!`);
     }
   };
 
-  const pop = () => {
-    const FilterPop = newPopTypeArray.filter(
-      (item, index) => item !== newPopTypeArray[index]
-    );
-    if (FilterPop.length > 0) {
-      const KeyName = FilterPop.slice(-1)[0] + FilterPop.length;
-      const curRoutes = routeList[KeyName];
-      if (curRoutes) {
-        curRoutes.pop();
-        if (curRoutes.length === 0) {
-          const newRouteList = FilterObject(routeList, KeyName);
-          setTimeout(() => {
-            setRouteList(newRouteList);
-          }, 0);
-        } else {
-          setTimeout(() => {
-            setRouteList({
-              ...routeList,
-              KeyName: [...curRoutes],
-            });
-          }, 0);
-        }
-      }
-    }
-    console.log(routeList);
-
-    const curPopType = newPopTypeArray.pop();
-    if (curPopType === "half") popHalf();
-    if (curPopType === "full") popFull();
-    setNewPopTypeArray([...newPopTypeArray]);
-  };
+  const pop = () =>
+    new Promise<void>((resolve) => {
+      const curPopType = newPopTypeArray.pop();
+      if (curPopType === "half") popHalf();
+      if (curPopType === "full") popFull();
+      setNewPopTypeArray([...newPopTypeArray]);
+      resolve();
+    });
 
   const popHalf = () => {
     const route = halfRouteList.pop();
-    emitter.emitter.emit(route?.name + "_pop"); // pop触发事件
     setHalfRouteList([...halfRouteList]);
+    emitter.emitter.emit(route?.name + "_pop"); // pop触发事件
   };
 
   const popFull = () => {
     const route = fullRouteList.pop();
-    emitter.emitter.emit(route?.name + "_pop"); // pop触发事件
     setFullRouteList([...fullRouteList]);
+    emitter.emitter.emit(route?.name + "_pop"); // pop触发事件
   };
 
   const replace = ({
@@ -181,22 +127,32 @@ const useRouter = (routes: RoutesPropTypes) => {
 
   const clearAllRouter = () =>
     new Promise<void>((resolve) => {
-      setHalfRouteList([]);
-      setFullRouteList([]);
+      const timer = setTimeout(() => {
+        setHalfRouteList([]);
+        setFullRouteList([]);
+        setNewPopTypeArray([]);
+        clearTimeout(timer);
+      }, 0);
       resolve();
     });
 
   const clearHalfRouter = () =>
     new Promise<void>((resolve) => {
-      setHalfRouteList([]);
-      setNewPopTypeArray(newPopTypeArray.filter((item) => item === "full"));
+      const timer = setTimeout(() => {
+        setHalfRouteList([]);
+        setNewPopTypeArray(newPopTypeArray.filter((item) => item === "full"));
+        clearTimeout(timer);
+      }, 0);
       resolve();
     });
 
   const clearFullRouter = () =>
     new Promise<void>((resolve) => {
-      setFullRouteList([]);
-      setNewPopTypeArray(newPopTypeArray.filter((item) => item === "half"));
+      const timer = setTimeout(() => {
+        setFullRouteList([]);
+        setNewPopTypeArray(newPopTypeArray.filter((item) => item === "half"));
+        clearTimeout(timer);
+      }, 0);
       resolve();
     });
 

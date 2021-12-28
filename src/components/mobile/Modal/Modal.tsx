@@ -15,7 +15,7 @@ import {
   OkButton,
   Box,
 } from "./styled";
-import { spring, TransitionMotion } from "react-motion";
+import { TransitionMotion } from "react-motion";
 import Mask from "../Mask/index";
 import { usePrevious } from "../../utils/common";
 
@@ -55,16 +55,16 @@ const Modal = ({
   const getStyles = () => [
     {
       style: {
-        scale: spring(localVisible ? 1 : 0),
-        opacity: spring(localVisible ? 1 : 0),
+        scale: localVisible ? 1 : 0,
+        opacity: localVisible ? 1 : 0,
       },
       key: "ModalTransition",
     },
   ];
   const willLeave = () => {
     return {
-      scale: spring(0),
-      opacity: spring(0),
+      scale: 0,
+      opacity: 0,
     };
   };
   const willEnter = () => ({
@@ -110,6 +110,8 @@ const Modal = ({
                 style={{
                   transform: `scale(${inStyles[0].style.scale})`,
                   opacity: inStyles[0].style.scale,
+                  transition:
+                    "opacity 300ms ease-in-out,transform 300ms ease-in-out",
                 }}
               >
                 <ModalWrapper

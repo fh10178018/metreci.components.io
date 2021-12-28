@@ -64,8 +64,9 @@ const Drawer: FC<DrawerPropTypes> = ({
 
   const [curStatus, setCurStatus] = useState(openStatus);
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setCurStatus(openStatus);
+      clearTimeout(timer);
     }, 100);
   }, [openStatus]);
   return (

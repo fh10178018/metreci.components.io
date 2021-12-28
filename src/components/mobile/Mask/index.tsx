@@ -8,7 +8,7 @@
 import { ReactNode } from "react";
 import { useDebounce } from "../../utils/common";
 import { maskZIndex } from "../constants/zIndexManage";
-import { Maskwrapper, MaskBox } from "./styled";
+import { MaskWrapper, MaskBox } from "./styled";
 
 export interface ITsExampleProps {
   visible?: boolean;
@@ -32,7 +32,7 @@ const Mask = ({
     }
   };
   return (
-    <Maskwrapper
+    <MaskWrapper
       style={{
         zIndex: zIndex,
         height: visible ? "100vh" : 0,
@@ -44,7 +44,7 @@ const Mask = ({
         onClick={useDebounce(_callBack, 1000, true)}
       />
       {children}
-    </Maskwrapper>
+    </MaskWrapper>
   );
 };
 

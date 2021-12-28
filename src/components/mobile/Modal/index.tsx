@@ -17,7 +17,7 @@ export default function confirm(config: ModalPropTypes) {
      *
      * Sync render blocks React event. Let's make this async.
      */
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       let handleCancel;
       if (props.onCancel) {
         handleCancel = () => {
@@ -53,12 +53,14 @@ export default function confirm(config: ModalPropTypes) {
         />,
         container
       );
+      clearTimeout(timer);
     });
   }
   function destroy() {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       ReactDOM.unmountComponentAtNode(container);
       container.remove();
+      clearTimeout(timer);
     });
   }
 

@@ -41,7 +41,7 @@ function useSetInterval(callback: any, delay: null | number) {
       id = setTimeout(tick, delay);
     };
     id = setTimeout(tick, delay);
-    return () => clearInterval(id);
+    return () => clearTimeout(id);
   }, [delay]);
 }
 

@@ -37,6 +37,7 @@ const SliderWrapper = styled.div`
   right: 0;
   top: 0;
   height: 100%;
+  transition: opacity 300ms ease-in-out;
 `;
 
 const RightSliderWrapper = styled.div`

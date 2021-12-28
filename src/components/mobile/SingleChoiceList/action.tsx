@@ -5,7 +5,7 @@
  * @Last Modified time: 2021-12-02 11:15:55
  */
 import React, { ReactNode } from "react";
-import { RightArrowIcon, PlusIcon } from "../ActionIcon";
+import ActionIcon from "../ActionIcon";
 
 import {
   HeaderContent,
@@ -16,6 +16,8 @@ import {
   Wrapper,
   ChildrenWrapper,
 } from "./styled";
+
+const { RightArrowIcon, PlusIcon } = ActionIcon;
 
 interface SingleChoiceItemProps {
   value: number;
