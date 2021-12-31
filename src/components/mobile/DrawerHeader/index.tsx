@@ -4,21 +4,19 @@ import styled from "styled-components";
 import { themeColors } from "../constants/themeStyled";
 import { rem } from "../constants/rem";
 import { useDebounce } from "../../utils/common";
-import ActionIcon from "../ActionIcon";
-
-const { LeftArrowIcon, CloseIcon } = ActionIcon;
+import { LeftArrowIcon, CloseIcon } from "../ActionIcon";
 
 const PopHeader = styled.div.attrs((props: { headerNoBorder: boolean }) => {
   return {
     headerNoBorder: props.headerNoBorder,
   };
 })`
-  padding: ${rem("0 10px")};
+  padding: ${rem("0 38px")};
   width: 100%;
   height: ${rem("96px")};
   ${(props) =>
     !props.headerNoBorder
-      ? `border-bottom: ${rem("2px")} solid ${themeColors.border};`
+      ? `border-bottom: ${rem("1px")} solid ${themeColors.border};`
       : ""}
   box-sizing: border-box;
   display: flex;
@@ -27,11 +25,12 @@ const PopHeader = styled.div.attrs((props: { headerNoBorder: boolean }) => {
 `;
 const PopClose = styled.span`
   z-index: 1;
-  display: table-cell;
+  display: flex;
   vertical-align: middle;
-  width: ${rem("48px")};
   height: ${rem("48px")};
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
 `;
 const HeadTitle = styled.div`
   width: 100%;
@@ -77,18 +76,23 @@ const Header: React.FC<HeaderPropTypes> = ({
     <>
       <PopHeader style={customStyle} headerNoBorder={headerNoBorder}>
         <PopClose
-          style={{ display: onGoBack && showBackIcon ? "block" : "none" }}
+          style={{
+            display: onGoBack && showBackIcon ? "flex" : "none",
+            transform: `translateX(${rem("-10px")})`,
+          }}
           onClick={useDebounce(() => onGoBack && onGoBack(), 1000, true)}
         >
-          <LeftArrowIcon />
+          <LeftArrowIcon color="#666666" />
         </PopClose>
         <HeadTitle>{headTitle}</HeadTitle>
 
         <PopClose
-          style={{ display: onClose && showCloseIcon ? "block" : "none" }}
+          style={{
+            display: onClose && showCloseIcon ? "flex" : "none",
+          }}
           onClick={useDebounce(() => onClose && onClose(), 1000, true)}
         >
-          <CloseIcon />
+          <CloseIcon color="#666666" />
         </PopClose>
       </PopHeader>
       {!hideHeaderPlaceholder && (

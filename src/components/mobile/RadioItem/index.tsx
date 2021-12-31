@@ -1,15 +1,17 @@
 import React, { ReactNode } from "react";
-import ActionIcon from "../ActionIcon";
+import {
+  CheckIcon,
+  SquareCheckIcon,
+  SquareUnCheckIcon,
+  RadioCheckIcon,
+  RadioUnCheckIcon,
+} from "../ActionIcon";
 import {
   RadioBox,
-  RadioChecked,
-  Radio,
   RadioBackground,
   RadioCheckedIcon,
   RadioWrapper,
 } from "./styled";
-
-const { CheckIcon, SquareCheckIcon, SquareUnCheckIcon } = ActionIcon;
 
 interface RadioItemProps {
   checked?: boolean;
@@ -33,18 +35,21 @@ const RadioItem: React.FC<RadioItemProps> = ({
   size,
 }: RadioItemProps) => {
   const iconList = [
-    [<RadioChecked />, <Radio />],
+    [<RadioCheckIcon color={color} />, <RadioUnCheckIcon />],
     [<CheckIcon size={size} color={color} />, ""],
-    [<SquareCheckIcon />, <SquareUnCheckIcon />],
+    [
+      <SquareCheckIcon size={size} color={color} />,
+      <SquareUnCheckIcon size={size} color="#bbbbbb" />,
+    ],
   ];
 
   return (
-    <RadioWrapper>
-      <RadioBox
-        onClick={() => {
-          !isLoading && !disabled && onChange && onChange(!checked);
-        }}
-      >
+    <RadioWrapper
+      onClick={() => {
+        !isLoading && !disabled && onChange && onChange(!checked);
+      }}
+    >
+      <RadioBox>
         <RadioBackground isLoading={isLoading}>
           {iconList[type][1]}
         </RadioBackground>

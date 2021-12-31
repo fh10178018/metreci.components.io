@@ -1,8 +1,8 @@
 /*
  * @Author: HanFang
  * @Date: 2021-12-02 10:23:22
- * @Last Modified by: HanFang
- * @Last Modified time: 2021-12-06 19:28:40
+ * @Last Modified by: neng.zhang
+ * @Last Modified time: 2021-12-Tu 04:29:42
  */
 import React, {
   useContext,
@@ -10,6 +10,7 @@ import React, {
   ReactNode,
   useMemo,
   useRef,
+  CSSProperties,
 } from "react";
 import RadioGroupContext from "./context";
 import Radio from "../RadioItem";
@@ -23,9 +24,10 @@ import {
   Wrapper,
   ChildrenWrapper,
 } from "./styled";
+import { themeColors } from "../constants/themeStyled";
 
 interface SingleChoiceItemProps {
-  value: number;
+  value: number | string;
   extendValue?: any;
   headerNode: ReactNode;
   type?: 0 | 1 | 2 | 3;
@@ -37,6 +39,7 @@ interface SingleChoiceItemProps {
   loading?: boolean;
   autoFold?: boolean;
   iconNode?: ReactNode; // type为2的时候,展示iconNode
+  customStyle?: CSSProperties;
 }
 
 const SingleChoiceItem: React.FC<SingleChoiceItemProps> = ({
@@ -50,18 +53,20 @@ const SingleChoiceItem: React.FC<SingleChoiceItemProps> = ({
   type = 0,
   autoFold = true,
   iconNode,
+  customStyle,
 }: SingleChoiceItemProps) => {
   const { onChange, activeValue, mainType } = useContext(RadioGroupContext);
-  const handleClick = useCallback(
-    () => !loading && !disabled && onChange && onChange(value, extendValue),
-    [onChange, value, extendValue, disabled, loading]
-  );
+  const handleClick = useCallback(() => {
+    !loading &&
+      !disabled &&
+      typeof onChange === "function" &&
+      onChange(value, extendValue);
+  }, [onChange, value, extendValue, disabled, loading]);
   const isActive = useMemo(() => activeValue === value, [activeValue, value]);
-
-  const curType = useMemo(() => (mainType !== undefined ? mainType : type), [
-    mainType,
-    type,
-  ]);
+  const curType = useMemo(
+    () => (mainType !== undefined ? mainType : type),
+    [mainType, type]
+  );
 
   const childrenRef = useRef<HTMLDivElement>(null);
 
@@ -73,6 +78,7 @@ const SingleChoiceItem: React.FC<SingleChoiceItemProps> = ({
         onClick={handleClick}
         disabled={disabled || loading}
         isType2={isChineseH5Type}
+        style={customStyle}
       >
         {curType === 0 && (
           <LeftContent>
@@ -108,7 +114,11 @@ const SingleChoiceItem: React.FC<SingleChoiceItemProps> = ({
         </CenterContent>
         {curType === 2 && (
           <RightContent>
-            <Radio checked={isActive} isLoading={loading} />
+            <Radio
+              checked={isActive}
+              isLoading={loading}
+              color={themeColors.blue}
+            />
           </RightContent>
         )}
         {curType === 3 && (
@@ -117,19 +127,8 @@ const SingleChoiceItem: React.FC<SingleChoiceItemProps> = ({
           </RightContent>
         )}
       </Wrapper>
-      {isChineseH5Type && children && autoFold && (
-        <ChildrenWrapper
-          style={{
-            height: isActive
-              ? (childrenRef.current?.children[0] as HTMLDivElement)
-                  ?.offsetHeight
-              : 0,
-            opacity: isActive ? 1 : 0,
-          }}
-          ref={childrenRef}
-        >
-          <div>{children}</div>
-        </ChildrenWrapper>
+      {isChineseH5Type && (
+        <div style={{ display: isActive ? "block" : "none" }}>{children}</div>
       )}
     </>
   );

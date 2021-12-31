@@ -29,4 +29,14 @@ const themeColors: {
   border: "rgba(218, 223, 230, 0.8)",
 };
 
-export { themeColors };
+const themeTime: {
+  ANIMATION_TIME: number;
+  DRAWER_ENTRY_TIME: number;
+  DRAWER_DEPARTURE_TIME: number;
+} = {
+  ANIMATION_TIME: 240,
+  DRAWER_ENTRY_TIME: 240, // Drawer 组件进入的时间
+  DRAWER_DEPARTURE_TIME: 120, // Drawer 组件离开的时间
+};
+
+export { themeColors, themeTime };

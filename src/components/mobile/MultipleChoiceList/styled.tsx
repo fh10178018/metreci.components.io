@@ -14,7 +14,6 @@ const Wrapper = styled.div.attrs((props: { disabled: boolean }) => {
 `;
 
 const LeftContent = styled.div`
-  width: 38px;
   display: flex;
   min-height: ${rem("120px")};
   align-items: center;

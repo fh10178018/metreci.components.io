@@ -18,6 +18,7 @@ interface MultipleChoiceItemProps {
   children?: ReactNode;
   footerNode?: ReactNode;
   loading?: boolean;
+  childrenClassName?: string;
 }
 
 const MultipleChoiceItem: React.FC<MultipleChoiceItemProps> = ({
@@ -27,10 +28,10 @@ const MultipleChoiceItem: React.FC<MultipleChoiceItemProps> = ({
   disabled = false,
   loading = false,
   type = 0,
+  childrenClassName = "",
 }: MultipleChoiceItemProps) => {
-  const { onChange, activeValueArray, mainType } = useContext(
-    RadioGroupContext
-  );
+  const { onChange, activeValueArray, mainType } =
+    useContext(RadioGroupContext);
   const handleClick = () => {
     if (!loading && !disabled && onChange && activeValueArray) {
       if (!isActive) {
@@ -45,21 +46,27 @@ const MultipleChoiceItem: React.FC<MultipleChoiceItemProps> = ({
     [activeValueArray, value]
   );
 
-  const curType = useMemo(() => (mainType !== undefined ? mainType : type), [
-    mainType,
-    type,
-  ]);
+  const curType = useMemo(
+    () => (mainType !== undefined ? mainType : type),
+    [mainType, type]
+  );
 
   return (
     <Wrapper onClick={handleClick} disabled={disabled || loading}>
       {curType === 0 ? (
         <LeftContent>
-          <Radio checked={isActive} isLoading={loading} type={2} />
+          <Radio
+            size={32}
+            color="#0086F6"
+            checked={isActive}
+            isLoading={loading}
+            type={2}
+          />
         </LeftContent>
       ) : (
         ""
       )}
-      <RightContent>
+      <RightContent className={childrenClassName}>
         <ChildrenWrapper>{children}</ChildrenWrapper>
         <FooterContent>{footerNode}</FooterContent>
       </RightContent>

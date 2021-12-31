@@ -9,7 +9,12 @@ export const ModalWrapper = styled.div`
   padding: ${rem("48px 32px")};
 `;
 
-export const Header = styled.div`
+export const Header = styled.div.attrs(
+  (props: { hasInductionStyle: boolean }) => ({
+    hasInductionStyle: props.hasInductionStyle,
+  })
+)`
+  margin: ${(props) => (props.hasInductionStyle ? 0 : rem("0 0 32px 0"))};
   color: rgba(0, 0, 0, 0.85);
   text-align: center;
   font-size: ${rem("34px")};
@@ -21,7 +26,11 @@ export const Header = styled.div`
   user-select: none;
 `;
 
-export const Content = styled.div`
+export const Content = styled.div.attrs(
+  (props: { hasInductionStyle: boolean }) => ({
+    hasInductionStyle: props.hasInductionStyle,
+  })
+)`
   flex: 1;
   line-height: ${rem("40px")};
   font-family: PingFangSC-Regular;
@@ -29,6 +38,7 @@ export const Content = styled.div`
   color: ${themeColors.blackDark};
   position: relative;
   :before {
+    display: ${(props) => (props.hasInductionStyle ? "block" : "none")};
     background: linear-gradient(to bottom, #ffffff, rgba(255, 255, 255, 0));
     content: "";
     height: ${rem("50px")};
@@ -39,6 +49,7 @@ export const Content = styled.div`
     z-index: 1;
   }
   :after {
+    display: ${(props) => (props.hasInductionStyle ? "block" : "none")};
     background: linear-gradient(to top, #ffffff, rgba(255, 255, 255, 0));
     content: "";
     height: ${rem("50px")};
@@ -50,9 +61,14 @@ export const Content = styled.div`
   }
 `;
 
-export const Box = styled.div`
+export const Box = styled.div.attrs(
+  (props: { hasInductionStyle: boolean }) => ({
+    hasInductionStyle: props.hasInductionStyle,
+  })
+)`
   max-height: ${rem("700px")};
-  padding: ${rem("50px 0")};
+  padding: ${(props) =>
+    props.hasInductionStyle ? rem("50px 0") : rem("0 0 48px 0")};
   overflow-y: auto;
   overflow-x: hidden;
   &::-webkit-scrollbar {

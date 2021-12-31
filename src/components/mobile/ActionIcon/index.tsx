@@ -2,7 +2,7 @@
  * @Author: HanFang
  * @Date: 2021-12-02 11:21:01
  * @Last Modified by: HanFang
- * @Last Modified time: 2021-12-27 11:25:29
+ * @Last Modified time: 2021-12-30 19:39:05
  */
 import { themeColors } from "../constants/themeStyled";
 import { rem } from "../constants/rem";
@@ -38,7 +38,7 @@ const Arrow =
     );
   };
 
-const PlusIcon = ({
+export const PlusIcon = ({
   size = 40,
   color = themeColors["blackDark"],
   style = {},
@@ -60,11 +60,24 @@ const PlusIcon = ({
   );
 };
 
-const CloseIcon = ({ size = 48, color = themeColors["blackDark"] }) => (
-  <PlusIcon style={{ transform: "rotate(45deg)" }} size={size} color={color} />
-);
+export const CloseIcon = ({ size = 28, color = themeColors["blackDark"] }) => {
+  const curSize = rem((size || 46) + "px");
+  return (
+    <svg
+      width={curSize}
+      height={curSize}
+      viewBox="0 0 256 256"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M151.605 128l99.467 99.499c6.517 6.517 6.517 17.088 0 23.605A16.632 16.632 0 0 1 239.275 256a16.614 16.614 0 0 1-11.798-4.896l-99.466-99.499-99.467 99.499C25.28 254.368 21.014 256 16.747 256s-8.544-1.632-11.798-4.896c-6.517-6.517-6.517-17.088 0-23.605L104.416 128 4.949 28.501c-6.517-6.517-6.517-17.088 0-23.605 6.518-6.528 17.078-6.528 23.595 0l99.467 99.499 99.466-99.499c6.518-6.528 17.078-6.528 23.595 0 6.517 6.517 6.517 17.088 0 23.605L151.605 128z"
+        fill={color}
+      />
+    </svg>
+  );
+};
 
-const CheckIcon = ({ size = 40, color = themeColors["blackDark"] }) => {
+export const CheckIcon = ({ size = 40, color = themeColors["blackDark"] }) => {
   const curSize = rem((size || 46) + "px");
   return (
     <svg
@@ -87,7 +100,7 @@ const CheckIcon = ({ size = 40, color = themeColors["blackDark"] }) => {
   );
 };
 
-const SquareCheckIcon = ({ size = 40, color = themeColors["blue"] }) => {
+export const SquareCheckIcon = ({ size = 40, color = themeColors["blue"] }) => {
   const curSize = rem(size + "px");
   return (
     <svg
@@ -104,7 +117,10 @@ const SquareCheckIcon = ({ size = 40, color = themeColors["blue"] }) => {
   );
 };
 
-const SquareUnCheckIcon = ({ size = 40, color = themeColors.grayDark }) => {
+export const SquareUnCheckIcon = ({
+  size = 40,
+  color = themeColors.grayDark,
+}) => {
   const curSize = rem(size + "px");
   return (
     <svg width={curSize} height={curSize} viewBox="0 0 256 256">
@@ -116,7 +132,7 @@ const SquareUnCheckIcon = ({ size = 40, color = themeColors.grayDark }) => {
   );
 };
 
-const PayCheckedIcon = ({ size = 40 }) => {
+export const PayCheckedIcon = ({ size = 40, color = themeColors.green }) => {
   const curSize = rem(size + "px");
   return (
     <svg
@@ -130,28 +146,73 @@ const PayCheckedIcon = ({ size = 40 }) => {
       </defs>
       <path
         d="M214.857 54.857l-92.343 96-48.457-46.629c-6.4-6.4-17.371-6.4-23.771 0-6.4 6.4-6.4 17.372 0 23.772l60.343 58.514c6.4 6.4 17.371 6.4 23.771 0L243.2 73.143c7.314 16.457 11.886 34.743 11.886 53.943 0 70.4-57.6 128-128 128S0 198.4 0 128 57.6 0 128 0c39.314 0 74.057 17.371 96.914 44.8l-10.057 10.057c.915 0 .915 0 0 0 .915 0 0 0 0 0z"
-        fill="#6AC563"
+        fill={color}
       />
     </svg>
   );
 };
 
-const RightArrowIcon = Arrow("right");
-const LeftArrowIcon = Arrow("left");
-const BottomArrowIcon = Arrow("bottom");
-const TopArrowIcon = Arrow("top");
-
-const IconList = {
-  SquareCheckIcon,
-  SquareUnCheckIcon,
-  RightArrowIcon,
-  LeftArrowIcon,
-  BottomArrowIcon,
-  TopArrowIcon,
-  PlusIcon,
-  CheckIcon,
-  PayCheckedIcon,
-  CloseIcon,
+export const RadioCheckIcon = function ({
+  size = 38,
+  color = themeColors.blue,
+}) {
+  const curSize = rem(size + "px");
+  return (
+    <svg
+      width={curSize}
+      height={curSize}
+      viewBox="0 0 256 256"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M128 3c69.036 0 125 55.964 125 125 0 69.035-55.964 125-125 125C58.965 253 3 197.035 3 128 3 58.964 58.965 3 128 3zm50.281 79.55l-66.133 65.051-34.35-34.407c-4.754-4.761-12.467-4.768-17.228-.015-4.761 4.754-4.767 12.467-.014 17.228l42.893 42.964c4.728 4.736 12.392 4.771 17.163.078l74.754-73.53c4.796-4.717 4.86-12.43.142-17.226-4.718-4.796-12.43-4.86-17.227-.142z"
+        fill={color}
+      />
+    </svg>
+  );
 };
 
-export default IconList;
+export const RadioUnCheckIcon = function ({
+  size = 38,
+  color = themeColors.grayDark,
+}) {
+  const curSize = rem(size + "px");
+  return (
+    <svg
+      viewBox="0 0 1024 1024"
+      xmlns="http://www.w3.org/2000/svg"
+      width={curSize}
+      height={curSize}
+    >
+      <path
+        d="M538.624 998.656C276.928 998.656 64 785.728 64 523.968c0-261.696 212.928-474.624 474.624-474.624 261.76 0 474.688 212.928 474.688 474.624C1013.312 785.728 800.384 998.656 538.624 998.656zM538.624 81.344C294.592 81.344 96 279.936 96 523.968c0 244.096 198.592 442.688 442.624 442.688 244.096 0 442.688-198.592 442.688-442.688C981.312 279.936 782.72 81.344 538.624 81.344z"
+        fill={color}
+      ></path>
+    </svg>
+  );
+};
+
+export const TiedCardIcon = function ({
+  size = 38,
+  color = themeColors.grayDark,
+}) {
+  const curSize = rem(size + "px");
+  return (
+    <svg
+      width={curSize}
+      height={curSize}
+      viewBox="0 0 256 256"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M253 46.74v32.602H3V46.739C3 34.733 12.733 25 24.74 25h206.52C243.268 25 253 34.733 253 46.74zM3 101.078h250v108.682c0 12.006-9.733 21.739-21.74 21.739H24.74C12.732 231.5 3 221.767 3 209.76V101.08zm31.25 74.052c0 3.646 1.172 6.64 3.516 8.984 2.343 2.343 5.338 3.515 8.984 3.515h37.5c3.646 0 6.64-1.172 8.984-3.515 2.344-2.344 3.516-5.338 3.516-8.984 0-3.645-1.172-6.64-3.516-8.983-2.343-2.344-5.338-3.515-8.984-3.515h-37.5c-3.646 0-6.64 1.171-8.984 3.515-2.344 2.344-3.516 5.338-3.516 8.983z"
+        fill={color}
+      />
+    </svg>
+  );
+};
+
+export const RightArrowIcon = Arrow("right");
+export const LeftArrowIcon = Arrow("left");
+export const BottomArrowIcon = Arrow("bottom");
+export const TopArrowIcon = Arrow("top");

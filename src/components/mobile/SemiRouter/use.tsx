@@ -10,7 +10,7 @@ const useRouter = (routes: RoutesPropTypes) => {
   const [halfRouteList, setHalfRouteList] = useState<RoutesPropTypes>([]);
   const [fullRouteList, setFullRouteList] = useState<RoutesPropTypes>([]);
   const [newPopTypeArray, setNewPopTypeArray] = useState<SemiRouteType[]>([]);
-  const emitter = useMitt();
+  const { emitter } = useMitt();
   const createNewRoute = ({
     name,
     param,
@@ -85,14 +85,14 @@ const useRouter = (routes: RoutesPropTypes) => {
 
   const popHalf = () => {
     const route = halfRouteList.pop();
+    emitter.emit(route?.name + "_pop"); // pop触发事件
     setHalfRouteList([...halfRouteList]);
-    emitter.emitter.emit(route?.name + "_pop"); // pop触发事件
   };
 
   const popFull = () => {
     const route = fullRouteList.pop();
+    emitter.emit(route?.name + "_pop"); // pop触发事件
     setFullRouteList([...fullRouteList]);
-    emitter.emitter.emit(route?.name + "_pop"); // pop触发事件
   };
 
   const replace = ({
@@ -127,22 +127,16 @@ const useRouter = (routes: RoutesPropTypes) => {
 
   const clearAllRouter = () =>
     new Promise<void>((resolve) => {
-      const timer = setTimeout(() => {
-        setHalfRouteList([]);
-        setFullRouteList([]);
-        setNewPopTypeArray([]);
-        clearTimeout(timer);
-      }, 0);
+      setHalfRouteList([]);
+      setFullRouteList([]);
+      setNewPopTypeArray([]);
       resolve();
     });
 
   const clearHalfRouter = () =>
     new Promise<void>((resolve) => {
-      const timer = setTimeout(() => {
-        setHalfRouteList([]);
-        setNewPopTypeArray(newPopTypeArray.filter((item) => item === "full"));
-        clearTimeout(timer);
-      }, 0);
+      setHalfRouteList([]);
+      setNewPopTypeArray(newPopTypeArray.filter((item) => item === "full"));
       resolve();
     });
 

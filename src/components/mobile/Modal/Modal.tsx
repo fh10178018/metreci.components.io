@@ -2,7 +2,7 @@
  * @Author: HanFang
  * @Date: 2021-12-16 11:27:11
  * @Last Modified by: HanFang
- * @Last Modified time: 2021-12-22 15:34:31
+ * @Last Modified time: 2021-12-31 11:19:54
  */
 import { ReactNode, CSSProperties, useEffect, useState } from "react";
 import { alertZIndex } from "../constants/zIndexManage";
@@ -18,6 +18,7 @@ import {
 import { TransitionMotion } from "react-motion";
 import Mask from "../Mask/index";
 import { usePrevious } from "../../utils/common";
+import { themeTime } from "../constants/themeStyled";
 
 export interface ModalPropTypes {
   title?: ReactNode; // Modal的标题
@@ -34,6 +35,7 @@ export interface ModalPropTypes {
   zIndex?: number; // 浮层高度
   visible?: boolean; // Modal是否可见
   maskClosable?: boolean; // 点击mask能否自动关闭
+  hasInductionStyle?: boolean; // 是否有上下渐变的诱导样式
 }
 
 const Modal = ({
@@ -51,6 +53,7 @@ const Modal = ({
   zIndex = alertZIndex,
   visible,
   maskClosable,
+  hasInductionStyle = false,
 }: ModalPropTypes) => {
   const getStyles = () => [
     {
@@ -110,8 +113,7 @@ const Modal = ({
                 style={{
                   transform: `scale(${inStyles[0].style.scale})`,
                   opacity: inStyles[0].style.scale,
-                  transition:
-                    "opacity 300ms ease-in-out,transform 300ms ease-in-out",
+                  transition: `opacity ${themeTime.ANIMATION_TIME}ms  ease-in-out,transform ${themeTime.ANIMATION_TIME}ms  ease-in-out`,
                 }}
               >
                 <ModalWrapper
@@ -120,9 +122,19 @@ const Modal = ({
                     zIndex: zIndex,
                   }}
                 >
-                  {title && <Header style={{ ...headerStyle }}>{title}</Header>}
-                  <Content style={{ ...contentStyle }}>
-                    <Box>{content}</Box>
+                  {title && (
+                    <Header
+                      style={{ ...headerStyle }}
+                      hasInductionStyle={hasInductionStyle}
+                    >
+                      {title}
+                    </Header>
+                  )}
+                  <Content
+                    style={{ ...contentStyle }}
+                    hasInductionStyle={hasInductionStyle}
+                  >
+                    <Box hasInductionStyle={hasInductionStyle}>{content}</Box>
                   </Content>
                   <Footer>
                     {onCancel && (

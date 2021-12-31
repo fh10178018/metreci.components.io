@@ -2,7 +2,7 @@
  * @Author: HanFang
  * @Date: 2021-12-02 10:23:19
  * @Last Modified by: HanFang
- * @Last Modified time: 2021-12-02 19:44:22
+ * @Last Modified time: 2021-12-31 11:31:56
  */
 import styled, { css } from "styled-components";
 import { rem } from "../constants/rem";
@@ -19,11 +19,12 @@ const Wrapper = styled.div.attrs(
   display: flex;
   min-height: ${(props) => rem(props.isType2 ? "146px" : "130px")};
   user-select: none;
+  box-sizing: border-box;
   opacity: ${(props) => (props.disabled ? 0.4 : 1)};
+  padding: ${(props) => (props.isType2 ? rem("24px 0") : 0)};
 `;
 
 const Left = css`
-  width: ${rem("76px")};
   display: flex;
   align-items: center;
 `;
@@ -54,7 +55,7 @@ const HeaderContent = styled.div.attrs((props: { isType2: boolean }) => {
   };
 })`
   font-size: ${rem("32px")};
-  line-height: ${rem("56px")};
+  line-height: ${(props) => rem(props.isType2 ? "normal" : "56px")};
   padding-top: ${(props) => rem(props.isType2 ? "0" : "40px")};
   display: flex;
   justify-content: space-between;
@@ -70,12 +71,10 @@ const FooterContent = styled.div.attrs((props: { isType2: boolean }) => {
 `;
 
 const ChildrenWrapper = styled.div`
-  transition: height 500ms;
   overflow: hidden;
 `;
 
 const RightContent = styled.div`
-  width: ${rem("76px")};
   display: flex;
   align-items: center;
   justify-content: center;

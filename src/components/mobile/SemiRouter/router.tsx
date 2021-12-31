@@ -2,7 +2,7 @@
  * @Author: HanFang
  * @Date: 2021-12-13 17:03:29
  * @Last Modified by: HanFang
- * @Last Modified time: 2021-12-24 11:06:30
+ * @Last Modified time: 2021-12-31 11:29:02
  */
 import React, { ReactNode, useEffect, Children, useState } from "react";
 import Mask from "../Mask/index";
@@ -23,6 +23,7 @@ import { RouterPushProp, RoutesPropTypes } from ".";
 import { usePrevious } from "../../utils/common";
 import { rem } from "../constants/rem";
 import Header from "../DrawerHeader";
+import { themeTime } from "../constants/themeStyled";
 
 export interface RouterPageGroupProps {
   routes: RoutesPropTypes;
@@ -145,6 +146,10 @@ const BackgroundMotion = ({
     y: 100,
   });
 
+  const timer = isActive
+    ? themeTime.DRAWER_ENTRY_TIME
+    : themeTime.DRAWER_DEPARTURE_TIME;
+
   return (
     <Mask zIndex={zIndex} visible={isActive} disabled>
       <TransitionMotion willEnter={willEnter} styles={getStyles()}>
@@ -155,12 +160,14 @@ const BackgroundMotion = ({
                 style={{
                   ...getTransform(0, inStyles[0].style.y),
                   zIndex: zIndex,
+                  transition: `transform ${timer}ms ease-in-out,
+        height ${timer}ms ease-in-out`,
                 }}
               >
                 <BgWrapper
                   style={{
                     height: inStyles[0].style.h + "vh",
-                    borderRadius: `${rem("24px 24px 0 0")}`,
+                    borderRadius: `${rem("16px 16px 0 0")}`,
                   }}
                 >
                   {children}
@@ -259,7 +266,9 @@ const RightSlideMotion = ({
     y: 0,
   });
   const willLeave = () => ({
-    x: spring(100),
+    x: spring(100, {
+      precision: 2.5,
+    }),
     y: 0,
   });
   const getStyles = () => {
@@ -267,7 +276,9 @@ const RightSlideMotion = ({
       key: index + "",
       data: child,
       style: {
-        x: spring(-100 * (children.length - index - 1)),
+        x: spring(-100 * (children.length - index - 1), {
+          precision: 5,
+        }),
         y: 0,
       },
     }));
@@ -337,11 +348,6 @@ const FullRouteItem = ({
   };
   return (
     <>
-      <Mask
-        zIndex={routeList.slice(-1)[0]?.zIndex || defaultZIndex}
-        visible={routeList.length > 0}
-        callBack={pop}
-      />
       <RightSlideMotion
         zIndex={routeList.slice(-1)[0]?.zIndex || defaultZIndex}
       >

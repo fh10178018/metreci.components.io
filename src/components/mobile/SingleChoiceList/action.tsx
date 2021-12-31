@@ -2,10 +2,10 @@
  * @Author: HanFang
  * @Date: 2021-12-02 10:23:34
  * @Last Modified by: HanFang
- * @Last Modified time: 2021-12-02 11:15:55
+ * @Last Modified time: 2021-12-31 11:29:50
  */
 import React, { ReactNode } from "react";
-import ActionIcon from "../ActionIcon";
+import { RightArrowIcon, PlusIcon } from "../ActionIcon";
 
 import {
   HeaderContent,
@@ -17,21 +17,19 @@ import {
   ChildrenWrapper,
 } from "./styled";
 
-const { RightArrowIcon, PlusIcon } = ActionIcon;
-
 interface SingleChoiceItemProps {
-  value: number;
+  value: number | string;
   extendValue?: any;
   headerNode: ReactNode;
   disabled?: boolean;
   children?: ReactNode;
   footerNode?: ReactNode;
-  iconNode?: boolean;
+  iconNode?: ReactNode;
   isPlus?: boolean;
   onClick?: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     extendValue: any,
-    value: number
+    value: number | string
   ) => void;
 }
 
