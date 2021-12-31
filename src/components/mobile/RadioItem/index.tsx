@@ -1,3 +1,9 @@
+/*
+ * @Author: HanFang
+ * @Date: 2021-12-01 17:22:05
+ * @Last Modified by: HanFang
+ * @Last Modified time: 2021-12-31 15:12:06
+ */
 import React, { ReactNode } from "react";
 import {
   CheckIcon,
@@ -39,7 +45,7 @@ const RadioItem: React.FC<RadioItemProps> = ({
     [<CheckIcon size={size} color={color} />, ""],
     [
       <SquareCheckIcon size={size} color={color} />,
-      <SquareUnCheckIcon size={size} color="#bbbbbb" />,
+      <SquareUnCheckIcon size={size} color="#BBBBBB" />,
     ],
   ];
 

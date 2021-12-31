@@ -2,7 +2,7 @@
  * @Author: HanFang
  * @Date: 2021-12-02 11:21:01
  * @Last Modified by: HanFang
- * @Last Modified time: 2021-12-30 19:39:05
+ * @Last Modified time: 2021-12-31 17:53:57
  */
 import { themeColors } from "../constants/themeStyled";
 import { rem } from "../constants/rem";
@@ -125,7 +125,7 @@ export const SquareUnCheckIcon = ({
   return (
     <svg width={curSize} height={curSize} viewBox="0 0 256 256">
       <path
-        d="M43.877 32C37.323 32 32 37.317 32 43.877v168.246C32 218.683 37.323 224 43.877 224h168.251c6.555 0 11.872-5.317 11.872-11.877V43.877C224 37.317 218.683 32 212.128 32H43.878zm181.515 224H30.613C13.733 256 0 242.272 0 225.392V30.608C0 13.728 13.733 0 30.613 0h194.779C242.272 0 256 13.728 256 30.608v194.784c0 16.88-13.728 30.608-30.608 30.608z"
+        d="M0 256V0h256v256H0zM240.013 15.987H16.038v224.025h223.974l.001-224.025z"
         fill={color}
       />
     </svg>
