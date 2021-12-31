@@ -2,7 +2,6 @@ import Drawer from "../components/mobile/Drawer/index.tsx";
 import base from "paths.macro";
 import { parameters } from "./utils";
 import { useState } from "react";
-import { useRef } from "react";
 
 export default {
   title: `${base.replace("/src/", "")}Drawer`,

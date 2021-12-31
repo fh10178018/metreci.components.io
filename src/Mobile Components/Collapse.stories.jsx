@@ -27,7 +27,7 @@ export default {
 const Template = (args) => (
   <div style={{ textAlign: "center" }}>
     <h1>基础折叠组件</h1>
-    <h1>👇下发为折叠内容👇</h1>
+    <h1>👇下面是折叠内容👇</h1>
     <Collapse {...args}>
       {args.visible && (
         <div>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { themeTime } from "../constants/themeStyled";
+import { themeTime, themeColors } from "../constants/themeStyled";
 
 const MaskWrapper = styled.div`
   top: 0;
@@ -14,7 +14,7 @@ const MaskWrapper = styled.div`
 const MaskBox = styled.div`
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: ${themeColors.mask};
   position: absolute;
   top: 0;
   left: 0;

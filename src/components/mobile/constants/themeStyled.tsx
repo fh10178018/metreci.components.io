@@ -25,7 +25,7 @@ const themeColors: {
   blackDark: "#333", // 字体一般采用这个颜色
   transparent: "rgba(255, 255, 255, 0)",
   transparentDark: "rgba(255, 255, 255, 0)",
-  mask: "rgba(101, 99, 99, 0.56)",
+  mask: "rgba(0, 0, 0, 0.7)",
   border: "rgba(218, 223, 230, 0.8)",
 };
 
