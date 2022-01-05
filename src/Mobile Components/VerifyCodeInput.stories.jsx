@@ -1,4 +1,4 @@
-import VerifyCodeInput from "../components/mobile/VerifyCodeInput/index.tsx";
+import VerifyCodeInput from "../components/mobile/business/VerifyCodeInput/index.tsx";
 import base from "paths.macro";
 import { parameters } from "./utils";
 

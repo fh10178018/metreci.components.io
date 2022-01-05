@@ -1,9 +1,6 @@
-import Modal from "../components/mobile/Modal";
+import { Modal } from "../components/mobile/common";
 import base from "paths.macro";
 import { parameters } from "./utils";
-import { useState } from "react";
-import { useRef } from "react";
-
 export default {
   title: `${base.replace("/src/", "")}Modal`,
   component: Modal,

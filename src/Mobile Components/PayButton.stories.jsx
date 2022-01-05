@@ -1,7 +1,7 @@
-import PayButton from "../components/mobile/PayButton/index.tsx";
+import PayButton from "../components/mobile/common/PayButton/index.tsx";
 import base from "paths.macro";
 import { parameters } from "./utils";
-import GlobalThemeProvider from "../components/mobile/GlobalThemeProvider/index.tsx";
+import GlobalThemeProvider from "../components/mobile/common/GlobalThemeProvider/index.tsx";
 
 export default {
   title: `${base.replace("/src/", "")}PayButton`,

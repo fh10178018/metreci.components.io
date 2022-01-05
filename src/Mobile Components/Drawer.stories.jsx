@@ -1,4 +1,4 @@
-import Drawer from "../components/mobile/Drawer/index.tsx";
+import { Drawer } from "../components/mobile/common";
 import base from "paths.macro";
 import { parameters } from "./utils";
 import { useState } from "react";

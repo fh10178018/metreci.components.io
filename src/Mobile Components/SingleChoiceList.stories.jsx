@@ -1,9 +1,11 @@
-import SingleChoiceList from "../components/mobile/SingleChoiceList/index.tsx";
+import {
+  SingleChoiceGroup,
+  SingleChoiceItem,
+  ActionItem,
+} from "../components/mobile/business";
 import base from "paths.macro";
 import { parameters } from "./utils";
 import { useState } from "react";
-
-const { SingleChoiceGroup, SingleChoiceItem, ActionItem } = SingleChoiceList;
 
 export default {
   title: `${base.replace("/src/", "")}SingleChoiceList`,

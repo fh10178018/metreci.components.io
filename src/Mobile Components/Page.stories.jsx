@@ -1,11 +1,8 @@
-import {
-  RouterPageContext,
-  RouterPageProvider,
-} from "../components/mobile/SemiRouter/index";
+import { SemiRouter } from "../components/mobile/common";
 import base from "paths.macro";
 import { parameters } from "./utils";
 import { useContext } from "react";
-
+const { RouterPageContext, RouterPageProvider } = SemiRouter;
 export default {
   title: `${base.replace("/src/", "")}Page`,
   component: RouterPageProvider,

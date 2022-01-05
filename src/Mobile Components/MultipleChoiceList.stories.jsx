@@ -1,4 +1,4 @@
-import MultipleChoiceList from "../components/mobile/MultipleChoiceList/index.tsx";
+import MultipleChoiceList from "../components/mobile/business/MultipleChoiceList/index.tsx";
 import base from "paths.macro";
 import { parameters } from "./utils";
 import { useState } from "react";

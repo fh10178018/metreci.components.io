@@ -1,7 +1,7 @@
-import Notification from "../components/mobile/Notification/index.tsx";
+import Notification from "../components/mobile/common/Notification/index.tsx";
 import base from "paths.macro";
 import { parameters } from "./utils";
-import GlobalThemeProvider from "../components/mobile/GlobalThemeProvider/index.tsx";
+import GlobalThemeProvider from "../components/mobile/common/GlobalThemeProvider/index.tsx";
 import { useRef, useEffect } from "react";
 
 export default {

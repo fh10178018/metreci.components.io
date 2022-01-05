@@ -1,4 +1,4 @@
-import VerifyCodeDrawer from "../components/mobile/VerifyCodeDrawer/index.tsx";
+import VerifyCodeDrawer from "../components/mobile/business/VerifyCodeDrawer/index.tsx";
 import base from "paths.macro";
 import { parameters } from "./utils";
 import { useState } from "react";

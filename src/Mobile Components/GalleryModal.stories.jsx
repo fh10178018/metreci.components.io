@@ -1,4 +1,4 @@
-import GalleryModal from "../components/mobile/GalleryModal";
+import GalleryModal from "../components/mobile/common/GalleryModal";
 import base from "paths.macro";
 import { parameters } from "./utils";
 

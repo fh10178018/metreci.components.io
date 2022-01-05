@@ -12,7 +12,7 @@ import {
   RadioUnCheckIcon, // ⚪ 圆形未选中
   RadioCheckIcon, // ⚪ 圆未选中
   TiedCardIcon, // 绑卡按钮
-} from "../components/mobile";
+} from "../components/mobile/common";
 import base from "paths.macro";
 import { parameters } from "./utils";
 import { CopyToClipboard } from "react-copy-to-clipboard";

@@ -1,4 +1,4 @@
-import Collapse from "../components/mobile/Collapse";
+import Collapse from "../components/mobile/common/Collapse";
 import base from "paths.macro";
 import { parameters } from "./utils";
 
