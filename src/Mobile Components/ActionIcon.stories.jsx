@@ -58,8 +58,7 @@ const Template = (args) => (
     <h3>👇以下是比较常用的功能性Icon👇</h3>
     <h5>点击复制组件</h5>
     <div>
-      {ActionIcon.map((Item, index) => (
-        <>
+      {ActionIcon.map((Item, index) => (  
           <CopyToClipboard key={index} text={`<${Item.name} />`}>
             <div
               style={{
@@ -79,8 +78,7 @@ const Template = (args) => (
               </span>
               <strong>{Item.name}</strong>
             </div>
-          </CopyToClipboard>
-        </>
+          </CopyToClipboard>    
       ))}
     </div>
   </div>

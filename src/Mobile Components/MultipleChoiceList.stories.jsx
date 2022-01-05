@@ -1,13 +1,11 @@
-import MultipleChoiceList from "../components/mobile/business/MultipleChoiceList/index.tsx";
+import {   MultipleChoiceGroup,   MultipleChoiceItem, }  from "../components/mobile/business";
 import base from "paths.macro";
 import { parameters } from "./utils";
 import { useState } from "react";
 
-const { MultipleChoiceGroup, MultipleChoiceItem } = MultipleChoiceList;
 
 export default {
   title: `${base.replace("/src/", "")}MultipleChoiceList`,
-  component: MultipleChoiceList,
   argTypes: {
     onChange: {
       description: "改变时触发",

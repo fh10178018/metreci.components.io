@@ -10,7 +10,7 @@ import ContentLoader from 'react-content-loader';
 const NaQuHuaLoader = () => (
     <ContentLoader
         width="100%"
-        height="auto"
+        height="100%"
         viewBox="0 0 638 392"
         backgroundColor="#f3f3f3"
         foregroundColor="#ecebeb"
