@@ -2,7 +2,7 @@
  * @Author: HanFang
  * @Date: 2021-12-16 11:27:11
  * @Last Modified by: HanFang
- * @Last Modified time: 2021-12-31 11:12:19
+ * @Last Modified time: 2022-01-05 11:35:34
  */
 import { ReactNode, CSSProperties } from "react";
 import { alertZIndex } from "../constants/zIndexManage";
@@ -14,7 +14,6 @@ export interface ModalPropTypes {
   children?: ReactNode; // Modal的标题
   customStyle?: CSSProperties; // Modal content样式
   onMask?: () => void; // 点击Mask遮罩的回调函数
-  cancelText?: string; // 取消的文本
   zIndex?: number; // 浮层高度
   visible?: boolean; // Modal是否可见
   maskClosable?: boolean; // 点击mask能否自动关闭

@@ -12749,6 +12749,11 @@ react-colorful@^5.1.2:
   resolved "https://registry.yarnpkg.com/react-colorful/-/react-colorful-5.3.0.tgz#bcbae49c1affa9ab9a3c8063398c5948419296bd"
   integrity sha512-zWE5E88zmjPXFhv6mGnRZqKin9s5vip1O3IIGynY9EhZxN8MATUxZkT3e/9OwTEm4DjQBXc6PFWP6AetY+Px+A==
 
+react-content-loader@^6.1.0:
+  version "6.1.0"
+  resolved "http://registry.npm.release.ctripcorp.com/react-content-loader/download/react-content-loader-6.1.0.tgz#6b06be3889d2480ae909be0374a6062a36a53dec"
+  integrity sha1-awa+OInSSArpCb4DdKYGKjalPew=
+
 react-copy-to-clipboard@^5.0.4:
   version "5.0.4"
   resolved "http://registry.npm.release.ctripcorp.com/react-copy-to-clipboard/download/react-copy-to-clipboard-5.0.4.tgz#42ec519b03eb9413b118af92d1780c403a5f19bf"
