@@ -2,7 +2,7 @@
  * @Author: HanFang
  * @Date: 2021-12-01 17:22:05
  * @Last Modified by: HanFang
- * @Last Modified time: 2021-12-31 15:12:06
+ * @Last Modified time: 2022-01-05 21:48:14
  */
 import React, { ReactNode } from "react";
 import {
@@ -27,6 +27,7 @@ interface RadioItemProps {
   isLoading?: boolean;
   onChange?: (val: boolean) => void;
   color?: string;
+  colorDark?: string;
   size?: number;
 }
 
@@ -38,10 +39,11 @@ const RadioItem: React.FC<RadioItemProps> = ({
   children,
   onChange,
   color,
+  colorDark,
   size,
 }: RadioItemProps) => {
   const iconList = [
-    [<RadioCheckIcon color={color} />, <RadioUnCheckIcon />],
+    [<RadioCheckIcon color={color} />, <RadioUnCheckIcon color={colorDark} />],
     [<CheckIcon size={size} color={color} />, ""],
     [
       <SquareCheckIcon size={size} color={color} />,

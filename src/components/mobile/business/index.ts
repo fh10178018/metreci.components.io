@@ -2,10 +2,22 @@
  * @Author: HanFang
  * @Date: 2022-01-05 13:58:45
  * @Last Modified by: HanFang
- * @Last Modified time: 2022-01-05 14:27:58
+ * @Last Modified time: 2022-01-06 11:18:13
  * @description: 面向中文支付的业务组件，更多是建立在common组件之上
  */
-export { GongGeItem, GongGeGroup } from "./GongGeChoiceList"; // 宫格式单选框,可用于拿去花分期支付
+export { GongGeItem, GongGeGroup } from "./InstallmentSelectionColumn"; // 宫格式单选框,可用于拿去花分期支付
+export {
+  PaymentSelectionColumnGroup,
+  BankCardItem,
+  HomeBankCardItem,
+  HomeThirdPayItem,
+} from "./PaymentSelectionColumn"; // 银行卡单选列
+export {
+  CouponGroup,
+  HotCouponItem,
+  CouponItem,
+  NoCouponItem,
+} from "./CouponSelectionColumn"; // 优惠券单选列
 export {
   SingleChoiceGroup, // 外层包裹
   SingleChoiceItem, // 每一项单选Item

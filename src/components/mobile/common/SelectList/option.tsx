@@ -2,7 +2,7 @@
  * @Author: HanFang
  * @Date: 2022-01-04 15:02:41
  * @Last Modified by: HanFang
- * @Last Modified time: 2022-01-05 11:21:14
+ * @Last Modified time: 2022-01-06 11:19:46
  */
 import React, { useContext, ReactNode, useMemo } from "react";
 import RadioGroupContext from "./context";
@@ -11,20 +11,14 @@ interface OptionPropTypes {
   value: number | string;
   extendValue?: any;
   disabled?: boolean;
-  frontNode?: (val?: boolean) => ReactNode;
-  rearNode?: (val?: boolean) => ReactNode;
-  centerNode?: (val?: boolean) => ReactNode;
-  footerNode?: (val?: boolean) => ReactNode;
+  centerNode: (val?: boolean, disabled?: boolean) => ReactNode;
 }
 
 const Option: React.FC<OptionPropTypes> = ({
   value,
   extendValue,
   disabled = false,
-  frontNode,
-  rearNode,
   centerNode,
-  footerNode,
 }: OptionPropTypes) => {
   const {
     onChange,
@@ -57,17 +51,8 @@ const Option: React.FC<OptionPropTypes> = ({
   return (
     <div onClick={handleClick} className="option-wrapper">
       <div className="option-content">
-        {frontNode && <div className="option-front">{frontNode(isActive)}</div>}
-
-        {centerNode && (
-          <div className="option-center">{centerNode(isActive)}</div>
-        )}
-
-        {rearNode && <div className="option-rear">{rearNode(isActive)}</div>}
+        {centerNode(isActive, groupDisabled || disabled)}
       </div>
-      {footerNode && (
-        <div className="option-footer">{footerNode(isActive)}</div>
-      )}
     </div>
   );
 };

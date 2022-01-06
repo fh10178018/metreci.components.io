@@ -2,7 +2,7 @@
  * @Author: HanFang
  * @Date: 2021-12-01 17:22:07
  * @Last Modified by: HanFang
- * @Last Modified time: 2021-12-31 11:27:41
+ * @Last Modified time: 2022-01-06 11:19:37
  */
 import styled from "styled-components";
 import { rem } from "../../constants/rem";
@@ -47,8 +47,6 @@ const Radio = function ({ size = 50, color = "#CED2D9" }) {
 };
 
 const RadioBox = styled.div`
-  width: ${rem("50px")};
-  height: ${rem("50px")};
   display: flex;
   border-radius: 50%;
   justify-content: center;
@@ -81,8 +79,6 @@ const RadioBackground = styled.div.attrs((props: { isLoading: boolean }) => {
   align-items: center;
   position: absolute;
   z-index: 0;
-  width: ${rem("50px")};
-  height: ${rem("50px")};
 `;
 
 const RadioCheckedIcon = styled.div.attrs((props: { checked: boolean }) => {
@@ -93,8 +89,6 @@ const RadioCheckedIcon = styled.div.attrs((props: { checked: boolean }) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${rem("50px")};
-  height: ${rem("50px")};
   opacity: ${(props) => (props.checked ? "1" : "0")};
   /* transition: opacity 300ms ease-in-out; */
   z-index: 1;

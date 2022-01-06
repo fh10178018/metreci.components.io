@@ -12,11 +12,16 @@ const themeColors: {
   mask: string;
   border: string;
   blackDark: string;
+  boxShadow: string;
+  red: string;
+  redDark: string;
   [key: string]: string;
 } = {
   white: "#fff",
   orange: "rgb(255, 119, 0)",
   orangeDark: "rgb(255, 165, 10)",
+  red: "rgb(248, 94, 83)",
+  redDark: "rgb(249, 128, 120)",
   blue: "#3264FF",
   blueDark: "#809FFF",
   grayDark: "#eeeeee",
@@ -27,6 +32,7 @@ const themeColors: {
   transparentDark: "rgba(255, 255, 255, 0)",
   mask: "rgba(0, 0, 0, 0.7)",
   border: "rgba(218, 223, 230, 0.8)",
+  boxShadow: "rgba(0, 0, 0, 0.06)",
 };
 
 const themeTime: {

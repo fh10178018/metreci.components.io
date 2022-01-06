@@ -33,6 +33,7 @@ export const Content = styled.div.attrs((props: { tip: string }) => {
     position: absolute;
     right: 0;
     top: ${rem("-14px")};
+    padding: ${rem("4px 8px")};
   }
 `;
 
@@ -44,6 +45,7 @@ export const Box = styled.div`
   right: 0;
   display: flex;
   align-items: center;
+  text-align: left;
 `;
 
 export const RadioWrapper = styled.div`
