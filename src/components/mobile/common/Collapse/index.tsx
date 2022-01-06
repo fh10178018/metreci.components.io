@@ -9,6 +9,7 @@ import { TransitionMotion } from "react-motion";
 import { usePrevious } from "../../../utils/common";
 import { Wrapper } from "./styled";
 import { themeTime } from "../../constants/themeStyled";
+import useDimensions from "../../../utils/useDimensions";
 
 interface CollapsePropTypes {
   visible: boolean; // 是否出现
@@ -26,11 +27,14 @@ const Collapse: FC<CollapsePropTypes> = ({
   const previousChildren = usePrevious(children);
   const [curChildren, setCurChildren] = useState(children);
   const [curHeight, setHeight] = useState(0);
-  const measuredRef = (node: HTMLDivElement | null) => {
-    if (node !== null) {
-      setHeight(node.offsetHeight);
-    }
-  };
+  const { observe, unobserve } = useDimensions({
+    useBorderBoxSize: true, // 计算为 border-box size
+    onResize: ({ height }) => {
+      setHeight(height);
+      observe();
+    },
+  });
+
   const willEnter = () => ({
     h: 0,
   });
@@ -54,6 +58,9 @@ const Collapse: FC<CollapsePropTypes> = ({
     } else {
       setCurChildren(children);
     }
+    return () => {
+      unobserve();
+    };
   });
   return (
     <TransitionMotion willEnter={willEnter} styles={getStyles()}>
@@ -64,7 +71,7 @@ const Collapse: FC<CollapsePropTypes> = ({
           }}
           animationTime={animationTime}
         >
-          <div ref={measuredRef}>{inStyles[0] && inStyles[0].data}</div>
+          <div ref={observe}>{inStyles[0] && inStyles[0].data}</div>
         </Wrapper>
       )}
     </TransitionMotion>
