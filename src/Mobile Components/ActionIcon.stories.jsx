@@ -40,19 +40,24 @@ export default {
   title: `${base.replace("/src/", "")}ActionIcon`,
   parameters: parameters,
   argTypes: {
-    visible: {
-      description: "折叠组件的打开状态",
-      type: "boolean",
-      defaultValue: false,
+    color: {
+      description: "Icon的颜色",
+      type: "string",
+      control: {
+        type: "color",
+      },
+      defaultValue: "#705454",
     },
-    height: {
-      description: "自定义折叠组件的高度，默认会计算children的高度",
+    size: {
+      size: "自定义Icon大小",
       type: "number",
-    },
-    animationTime: {
-      description: "自定义折叠组件的动画事件，默认为全局动画时间",
-      type: "number",
-      defaultValue: 240,
+      control: {
+        type: "range",
+        step: 1,
+        min: 15,
+        max: 99,
+      },
+      defaultValue: 36,
     },
   },
 };
@@ -78,7 +83,7 @@ const Template = (args) => (
             }}
           >
             <span>
-              <Item color="black" />
+              <Item {...args} />
             </span>
             <strong>{Item.name}</strong>
           </div>
