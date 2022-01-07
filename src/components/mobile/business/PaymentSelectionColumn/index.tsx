@@ -5,7 +5,8 @@
  * @Last Modified time: 2022-01-06 11:20:27
  */
 import { ReactNode } from "react";
-import { RadioItem, Select, Option } from "../../common"; // 单项选择都是基于common组件完成的
+import { RadioItem, Select, Option, Collapse } from "../../common"; // 单项选择都是基于common组件完成的
+import { rem } from "../../constants/rem";
 import { themeColors } from "../../constants/themeStyled";
 import {
   Content,
@@ -107,7 +108,11 @@ export const HomeBankCardItem: React.FC<HomeBankCardItemPropTypes> = ({
                 <RadioItem checked={val} color={themeColors.blue} />
               </HomeRadioWrapper>
             </Content>
-            {collapseNode && val ? collapseNode : null}
+            <Collapse visible={!!val} customStyle={{ marginTop: rem("-22px") }}>
+              {collapseNode ? (
+                <div style={{ paddingTop: rem("22px") }}>{collapseNode}</div>
+              ) : null}
+            </Collapse>
           </>
         );
       }}
@@ -147,7 +152,9 @@ export const HomeThirdPayItem: React.FC<HomeBankCardItemPropTypes> = ({
                 <RadioItem checked={val} color={themeColors.blue} />
               </HomeRadioWrapper>
             </Content>
-            {collapseNode && val ? collapseNode : null}
+            <Collapse visible={!!val}>
+              {collapseNode ? collapseNode : null}
+            </Collapse>
           </>
         );
       }}

@@ -35,6 +35,8 @@ export {
   RadioUnCheckIcon, // ⚪ 圆形未选中
   RadioCheckIcon, // ⚪ 圆未选中
   TiedCardIcon, // 绑卡按钮
+  InfoIcon, // 信息提示Icon
+  WaitIcon, // loading Icon
 } from "./common/ActionIcon"; // 常见的功能性Icon,可自定义颜色与大小
 export { RadioItem } from "./common"; // 选择按钮，@ActionIcon
 export { MittProvider, useMitt } from "./common"; //东长雷的性感事件巴士列车

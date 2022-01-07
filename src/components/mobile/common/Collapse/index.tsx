@@ -4,7 +4,7 @@
  * @Last Modified by: HanFang
  * @Last Modified time: 2021-12-31 11:19:00
  */
-import { FC, ReactNode, useEffect, useState } from "react";
+import { CSSProperties, FC, ReactNode, useEffect, useState } from "react";
 import { TransitionMotion } from "react-motion";
 import { usePrevious } from "../../../utils/common";
 import { Wrapper } from "./styled";
@@ -16,6 +16,7 @@ interface CollapsePropTypes {
   height?: number; // 自定义折叠内容高度
   animationTime?: number; // 自定义动画时间，单位ms
   children?: ReactNode; // 折叠隐藏的内容,注意子元素不要使用margin
+  customStyle?: CSSProperties;
 }
 
 const Collapse: FC<CollapsePropTypes> = ({
@@ -23,6 +24,7 @@ const Collapse: FC<CollapsePropTypes> = ({
   visible = false,
   animationTime = themeTime.ANIMATION_TIME,
   height,
+  customStyle = {},
 }: CollapsePropTypes) => {
   const previousChildren = usePrevious(children);
   const [curChildren, setCurChildren] = useState(children);
@@ -68,6 +70,7 @@ const Collapse: FC<CollapsePropTypes> = ({
         <Wrapper
           style={{
             height: inStyles[0].style.h + "px",
+            ...customStyle,
           }}
           animationTime={animationTime}
         >

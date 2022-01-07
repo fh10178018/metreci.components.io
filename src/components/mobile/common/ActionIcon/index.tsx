@@ -6,6 +6,7 @@
  */
 import { themeColors } from "../../constants/themeStyled";
 import { rem } from "../../constants/rem";
+import styled from "styled-components";
 
 const arrowTsf: {
   [key: string]: string;
@@ -216,3 +217,48 @@ export const RightArrowIcon = Arrow("right");
 export const LeftArrowIcon = Arrow("left");
 export const BottomArrowIcon = Arrow("bottom");
 export const TopArrowIcon = Arrow("top");
+
+export const InfoIcon = function ({ size = 38, color = themeColors.grayDark }) {
+  const curSize = rem(size + "px");
+  return (
+    <svg
+      width={curSize}
+      height={curSize}
+      viewBox="0 0 256 256"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M128 256C57.425 256 0 198.575 0 128S57.425 0 128 0s128 57.425 128 128-57.425 128-128 128zm0-237.725C67.5 18.275 18.275 67.5 18.275 128S67.5 237.725 128 237.725 237.725 188.5 237.725 128 188.5 18.275 128 18.275zm8.7 22.45c9.65 0 17.45 7.825 17.45 17.45 0 9.65-7.825 17.45-17.45 17.45-9.65 0-17.45-7.825-17.45-17.45s7.85-17.45 17.45-17.45zm32.75 126.725l-38.925 37.625c-12.525 11.55-25.975 2-22.425-17.1L117.95 115l-13.225-10.3c-5.7-4.725-8.425-11.625 2.15-11.625h43.3L137.15 172.05l27.975-10.875c6.7-3.15 11-.175 4.325 6.275z"
+        fill={color}
+      />
+    </svg>
+  );
+};
+
+const Spin = styled.svg`
+  display: inline-block;
+  animation: loadingCircle 0.5s infinite linear;
+  @keyframes loadingCircle {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
+export const WaitIcon = function ({ size = 38, color = themeColors.blue }) {
+  const curSize = rem(size + "px");
+  return (
+    <Spin
+      viewBox="0 0 1024 1024"
+      data-icon="wait"
+      width={curSize}
+      height={curSize}
+      aria-hidden="true"
+    >
+      <path
+        fill={color}
+        d="M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 0 0-94.3-139.9 437.71 437.71 0 0 0-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z"
+      />
+    </Spin>
+  );
+};

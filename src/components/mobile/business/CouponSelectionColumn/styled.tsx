@@ -6,7 +6,6 @@ export const Content = styled.div`
   width: 100%;
   height: ${rem("182px")};
   margin-bottom: ${rem("20px")};
-  cursor: pointer;
   user-select: none;
   border-radius: ${rem("16px")};
   background: ${themeColors.white};
@@ -22,7 +21,6 @@ export const NoCouponContent = styled.div`
   display: flex;
   font-size: ${rem("24px")};
   color: ${themeColors.black};
-  cursor: pointer;
   user-select: none;
   border-radius: ${rem("16px")};
   background: ${themeColors.white};
@@ -60,7 +58,6 @@ export const CommonContent = styled.div.attrs(
 )`
   width: 100%;
   min-height: ${rem("146px")};
-  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   user-select: none;
   display: flex;
   overflow: hidden;

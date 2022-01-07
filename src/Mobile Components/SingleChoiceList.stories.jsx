@@ -14,6 +14,7 @@ import {
 import base from "paths.macro";
 import { parameters } from "./utils";
 import { useState } from "react";
+import styled from "styled-components";
 
 export default {
   title: `${base.replace("/src/", "")}Payment Selection Column`,
@@ -49,6 +50,24 @@ const Icon = () => (
   </i>
 );
 
+const HideP = styled.p`
+  margin: 0;
+  background: orange;
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 9px;
+    border-bottom-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent orange transparent;
+    top: -20px;
+    left: 10px;
+  }
+`;
+
 const demoList3 = [
   {
     value: "DC_AS",
@@ -61,9 +80,9 @@ const demoList3 = [
     ),
     prefixNode: <Icon />,
     collapseNode: (
-      <p style={{ margin: 0, background: "orange" }}>
+      <HideP style={{ margin: 0, background: "orange" }}>
         隐藏折叠内容，选中时才显示
-      </p>
+      </HideP>
     ),
   },
   {
@@ -72,9 +91,9 @@ const demoList3 = [
     children: "5120 **** **** 0233",
     prefixNode: <Icon />,
     collapseNode: (
-      <p style={{ margin: 0, background: "orange" }}>
+      <HideP style={{ margin: 0, background: "orange" }}>
         隐藏折叠内容，选中时才显示
-      </p>
+      </HideP>
     ),
   },
   {
@@ -90,9 +109,9 @@ const demoList3 = [
     children: "3220 **** **** 0233",
     prefixNode: <Icon />,
     collapseNode: (
-      <p style={{ margin: 0, background: "orange" }}>
+      <HideP style={{ margin: 0, background: "orange" }}>
         隐藏折叠内容，选中时才显示
-      </p>
+      </HideP>
     ),
   },
 ];
@@ -190,7 +209,7 @@ const Template1 = (args) => {
 export const HomeBankCardSelectionColumn = Template1.bind({});
 
 const Template2 = (args) => {
-  const [status, setStatus] = useState(-1);
+  const [status, setStatus] = useState("weiXin");
   const onChange = function (value, extendValue) {
     // 加入action操作
     args.onChange.call(this, value, extendValue);

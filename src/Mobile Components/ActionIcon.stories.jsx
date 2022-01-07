@@ -12,6 +12,8 @@ import {
   RadioUnCheckIcon, // ⚪ 圆形未选中
   RadioCheckIcon, // ⚪ 圆未选中
   TiedCardIcon, // 绑卡按钮
+  InfoIcon,
+  WaitIcon,
 } from "../components/mobile/common";
 import base from "paths.macro";
 import { parameters } from "./utils";
@@ -30,6 +32,8 @@ const ActionIcon = [
   RadioUnCheckIcon, // ⚪ 圆形未选中
   RadioCheckIcon, // ⚪ 圆未选中
   TiedCardIcon, // 绑卡按钮
+  InfoIcon,
+  WaitIcon,
 ];
 
 export default {
@@ -58,27 +62,27 @@ const Template = (args) => (
     <h3>👇以下是比较常用的功能性Icon👇</h3>
     <h5>点击复制组件</h5>
     <div>
-      {ActionIcon.map((Item, index) => (  
-          <CopyToClipboard key={index} text={`<${Item.name} />`}>
-            <div
-              style={{
-                width: "calc(50% - 10px)",
-                height: "90px",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                background: "aliceblue",
-                margin: "5px",
-                cursor: "pointer",
-              }}
-            >
-              <span>
-                <Item color="black" />
-              </span>
-              <strong>{Item.name}</strong>
-            </div>
-          </CopyToClipboard>    
+      {ActionIcon.map((Item, index) => (
+        <CopyToClipboard key={index} text={`<${Item.name} />`}>
+          <div
+            style={{
+              width: "calc(50% - 10px)",
+              height: "90px",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              background: "aliceblue",
+              margin: "5px",
+              cursor: "pointer",
+            }}
+          >
+            <span>
+              <Item color="black" />
+            </span>
+            <strong>{Item.name}</strong>
+          </div>
+        </CopyToClipboard>
       ))}
     </div>
   </div>
