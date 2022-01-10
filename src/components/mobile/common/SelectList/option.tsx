@@ -5,6 +5,7 @@
  * @Last Modified time: 2022-01-06 11:19:46
  */
 import React, { useContext, ReactNode, useMemo } from "react";
+import { useDebounce } from "../../../utils/common";
 import RadioGroupContext from "./context";
 
 interface OptionPropTypes {
@@ -49,7 +50,10 @@ const Option: React.FC<OptionPropTypes> = ({
   );
 
   return (
-    <div onClick={handleClick} className="option-wrapper">
+    <div
+      onClick={useDebounce(handleClick, 500, true)}
+      className="option-wrapper"
+    >
       <div className="option-content">
         {centerNode(isActive, groupDisabled || disabled)}
       </div>

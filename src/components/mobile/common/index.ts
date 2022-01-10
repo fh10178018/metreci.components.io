@@ -34,3 +34,4 @@ export { MittProvider, useMitt } from "./EventBus"; //东长雷的性感事件�
 export { default as Collapse } from "./Collapse"; // 折叠组件
 export { default as GalleryModal } from "./GalleryModal"; // 画廊式Modal组件，@Mask、@Collapse
 export { Select, Option } from "./SelectList"; // 选择
+export { default as Image } from "./Image"; // 图片

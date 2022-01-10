@@ -2,14 +2,22 @@
  * @Author: HanFang
  * @Date: 2021-12-28 17:34:50
  * @Last Modified by: HanFang
- * @Last Modified time: 2021-12-31 11:19:00
+ * @Last Modified time: 2022-01-10 14:29:32
  */
-import { CSSProperties, FC, ReactNode, useEffect, useState } from "react";
+import {
+  CSSProperties,
+  FC,
+  ReactNode,
+  useEffect,
+  useState,
+  cloneElement,
+  Children,
+  useMemo,
+} from "react";
 import { TransitionMotion } from "react-motion";
 import { usePrevious } from "../../../utils/common";
 import { Wrapper } from "./styled";
 import { themeTime } from "../../constants/themeStyled";
-import useDimensions from "../../../utils/useDimensions";
 
 interface CollapsePropTypes {
   visible: boolean; // 是否出现
@@ -29,14 +37,15 @@ const Collapse: FC<CollapsePropTypes> = ({
   const previousChildren = usePrevious(children);
   const [curChildren, setCurChildren] = useState(children);
   const [curHeight, setHeight] = useState(0);
-  const { observe, unobserve } = useDimensions({
-    useBorderBoxSize: true, // 计算为 border-box size
-    onResize: ({ height }) => {
-      setHeight(height);
-      observe();
-    },
-  });
-
+  const newChild = useMemo(() => {
+    const child = Children.only(<div>{curChildren}</div>);
+    const CloneElm = cloneElement(child, {
+      ref: (node: any) => {
+        node && setHeight(node.offsetHeight);
+      },
+    });
+    return CloneElm;
+  }, [curChildren]);
   const willEnter = () => ({
     h: 0,
   });
@@ -44,7 +53,7 @@ const Collapse: FC<CollapsePropTypes> = ({
     return [
       {
         key: "Collapse",
-        data: curChildren,
+        data: newChild,
         style: {
           h: visible ? height || curHeight : 0,
         },
@@ -60,9 +69,6 @@ const Collapse: FC<CollapsePropTypes> = ({
     } else {
       setCurChildren(children);
     }
-    return () => {
-      unobserve();
-    };
   });
   return (
     <TransitionMotion willEnter={willEnter} styles={getStyles()}>
@@ -74,7 +80,7 @@ const Collapse: FC<CollapsePropTypes> = ({
           }}
           animationTime={animationTime}
         >
-          <div ref={observe}>{inStyles[0] && inStyles[0].data}</div>
+          {inStyles[0] && inStyles[0].data}
         </Wrapper>
       )}
     </TransitionMotion>
