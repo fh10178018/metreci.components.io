@@ -2,7 +2,7 @@
  * @Author: HanFang
  * @Date: 2022-01-05 13:58:45
  * @Last Modified by: HanFang
- * @Last Modified time: 2022-01-06 11:18:13
+ * @Last Modified time: 2022-01-11 19:30:58
  * @description: 面向中文支付的业务组件，更多是建立在common组件之上
  */
 export { GongGeItem, GongGeGroup } from "./InstallmentSelectionColumn"; // 宫格式单选框,可用于拿去花分期支付
@@ -11,6 +11,7 @@ export {
   BankCardItem,
   HomeBankCardItem,
   HomeThirdPayItem,
+  ActionBarItem,
 } from "./PaymentSelectionColumn"; // 银行卡单选列
 export {
   CouponGroup,

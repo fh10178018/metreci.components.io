@@ -1,6 +1,6 @@
 import {
   HomeThirdPayItem,
-  ActionItem,
+  ActionBarItem,
   CouponGroup,
   HotCouponItem,
   NoCouponItem,
@@ -179,6 +179,15 @@ const Template = (args) => {
         {demoList3.map((item, index) => (
           <BankCardItem key={index} {...item} />
         ))}
+        <ActionBarItem
+          prefixNode={<Icon />}
+          onClick={() => {
+            console.log("adsasdasd");
+          }}
+        >
+          <div>招商银行 储蓄卡</div>
+          <div>立减1-30元</div>
+        </ActionBarItem>
       </PaymentSelectionColumnGroup>
     </div>
   );
@@ -201,6 +210,14 @@ const Template1 = (args) => {
         {demoList3.map((item, index) => (
           <HomeBankCardItem key={index} {...item} />
         ))}
+        <ActionBarItem
+          onClick={() => {
+            console.log("adsasdasd");
+          }}
+        >
+          <div>招商银行 储蓄卡</div>
+          <div>立减1-30元</div>
+        </ActionBarItem>
       </PaymentSelectionColumnGroup>
     </div>
   );

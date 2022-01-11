@@ -32,6 +32,7 @@ export const Box = styled.div`
 `;
 
 export const HomeBox = styled.div`
+  padding: ${rem("24px 0")};
   ${CommonBoxCSS};
 `;
 

@@ -2,10 +2,18 @@
  * @Author: HanFang
  * @Date: 2022-01-04 15:22:56
  * @Last Modified by: HanFang
- * @Last Modified time: 2022-01-06 11:20:27
+ * @Last Modified time: 2022-01-11 19:30:06
  */
 import { ReactNode } from "react";
-import { RadioItem, Select, Option, Collapse } from "../../common"; // 单项选择都是基于common组件完成的
+import { useDebounce } from "../../../utils/common";
+import {
+  RadioItem,
+  Select,
+  Option,
+  Collapse,
+  PlusIcon,
+  RightArrowIcon,
+} from "../../common"; // 单项选择都是基于common组件完成的
 import { rem } from "../../constants/rem";
 import { themeColors } from "../../constants/themeStyled";
 import {
@@ -159,5 +167,56 @@ export const HomeThirdPayItem: React.FC<HomeBankCardItemPropTypes> = ({
         );
       }}
     />
+  );
+};
+
+interface ActionBarItemPropTypes {
+  value: number | string;
+  extendValue?: any;
+  disabled?: boolean;
+  children?: ReactNode;
+  prefixNode?: ReactNode;
+  isPlus?: boolean;
+  onClick?: (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    extendValue: any,
+    value: number | string
+  ) => void;
+}
+
+export const ActionBarItem: React.FC<ActionBarItemPropTypes> = ({
+  value,
+  extendValue,
+  disabled = false,
+  children,
+  prefixNode,
+  isPlus,
+  onClick,
+}: ActionBarItemPropTypes) => {
+  const CurBox = prefixNode ? Box : HomeBox;
+  const CurRadioWrapper = prefixNode ? RadioWrapper : HomeRadioWrapper;
+  const handleClick = useDebounce(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      if (disabled) {
+        e.preventDefault();
+        return;
+      }
+      onClick && onClick(e, extendValue, value);
+    },
+    500,
+    true
+  );
+  return (
+    <Content disabled={disabled} onClick={handleClick}>
+      {prefixNode && <PrefixBox>{prefixNode}</PrefixBox>}
+      <CurBox>{children}</CurBox>
+      <CurRadioWrapper>
+        {isPlus ? (
+          <PlusIcon color="#CCCCCC" />
+        ) : (
+          <RightArrowIcon color="#CCCCCC" />
+        )}
+      </CurRadioWrapper>
+    </Content>
   );
 };
