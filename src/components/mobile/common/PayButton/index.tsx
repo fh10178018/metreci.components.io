@@ -1,4 +1,5 @@
 import React, { MouseEventHandler, ReactNode } from "react";
+import { useDebounce } from "../../../utils/common";
 import { ButtonWrapper } from "./styled";
 
 export type BtnTypes = "gradient" | "default";
@@ -44,7 +45,7 @@ const PayButton: React.FC<PayButtonPropTypes> = ({
       curColor={color}
       style={style}
       className={className}
-      onClick={handleClick}
+      onClick={useDebounce(handleClick, 500, true)}
     >
       {children ? children : text}
     </ButtonWrapper>
