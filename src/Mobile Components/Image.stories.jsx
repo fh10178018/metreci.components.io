@@ -4,26 +4,40 @@ import { parameters } from "./utils";
 
 export default {
   title: `${base.replace("/src/", "")}Image`,
+  component: Image,
   parameters: parameters,
   argTypes: {
-    color: {
-      description: "Icon的颜色",
+    src: {
+      description: "图片地址",
       type: "string",
-      control: {
-        type: "color",
-      },
-      defaultValue: "#705454",
+      defaultValue:
+        "https://t7.baidu.com/it/u=2621658848,3952322712&fm=193&f=GIF",
     },
-    size: {
-      size: "自定义Icon大小",
+    alt: {
+      description: "图片介绍",
+      type: "string",
+    },
+    width: {
+      size: "定义图片大小",
       type: "number",
       control: {
         type: "range",
         step: 1,
-        min: 15,
-        max: 99,
+        min: 10,
+        max: 999,
       },
-      defaultValue: 36,
+      defaultValue: 634,
+    },
+    height: {
+      size: "定义图片高度",
+      type: "number",
+      control: {
+        type: "range",
+        step: 1,
+        min: 10,
+        max: 999,
+      },
+      defaultValue: 304,
     },
   },
 };
@@ -33,7 +47,7 @@ const Template = (args) => (
     <h3>👇以下是比较常用的功能性Icon👇</h3>
     <h5>点击复制组件</h5>
     <div>
-      <Image name="error.png" width={150} height={150} />
+      <Image {...args} />
     </div>
   </div>
 );

@@ -15,6 +15,8 @@ const themeColors: {
   boxShadow: string;
   red: string;
   redDark: string;
+  SKELETON_BACKGROUND_COLOR: string;
+  SKELETON_FOREGROUND_COLOR: string;
   [key: string]: string;
 } = {
   white: "#fff",
@@ -22,17 +24,19 @@ const themeColors: {
   orangeDark: "rgb(255, 165, 10)",
   red: "rgb(248, 94, 83)",
   redDark: "rgb(249, 128, 120)",
-  blue: "#3264FF",
+  blue: "#197aff",
   blueDark: "#809FFF",
-  grayDark: "#eeeeee",
+  grayDark: "#e0e0e0",
   gray: "#999999",
   black: "#000000",
   blackDark: "#333", // 字体一般采用这个颜色
   transparent: "rgba(255, 255, 255, 0)",
   transparentDark: "rgba(255, 255, 255, 0)",
   mask: "rgba(0, 0, 0, 0.7)",
-  border: "rgba(218, 223, 230, 0.8)",
+  border: "#d2d2d2",
   boxShadow: "rgba(0, 0, 0, 0.06)",
+  SKELETON_BACKGROUND_COLOR: "#f3f3f3", // 骨架屏背景色
+  SKELETON_FOREGROUND_COLOR: "#ecebeb", // 骨架屏前景色
 };
 
 const themeTime: {
