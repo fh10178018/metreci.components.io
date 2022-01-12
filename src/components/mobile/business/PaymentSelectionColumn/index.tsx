@@ -2,7 +2,7 @@
  * @Author: HanFang
  * @Date: 2022-01-04 15:22:56
  * @Last Modified by: HanFang
- * @Last Modified time: 2022-01-11 19:30:06
+ * @Last Modified time: 2022-01-12 10:26:44
  */
 import { ReactNode } from "react";
 import { useDebounce } from "../../../utils/common";
@@ -31,6 +31,7 @@ interface PaymentSelectionColumnGroupPropTypes {
   onChange: (value: number | string, extendValue: any) => void;
   children?: ReactNode;
   disabled?: boolean;
+  newValuetriggersOnChange?: boolean;
 }
 
 export const PaymentSelectionColumnGroup: React.FC<
@@ -40,12 +41,14 @@ export const PaymentSelectionColumnGroup: React.FC<
   onChange,
   children,
   disabled = false,
+  newValuetriggersOnChange = true,
 }: PaymentSelectionColumnGroupPropTypes) => (
   <Select
     activeValue={[activeValue]}
     onChange={(value, extendValue) => value && onChange(value[0], extendValue)}
     isMultipleChoice={false}
     disabled={disabled}
+    newValuetriggersOnChange={newValuetriggersOnChange}
   >
     {children}
   </Select>

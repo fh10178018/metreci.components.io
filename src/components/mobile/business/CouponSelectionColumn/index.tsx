@@ -2,7 +2,7 @@
  * @Author: HanFang
  * @Date: 2022-01-04 15:22:56
  * @Last Modified by: HanFang
- * @Last Modified time: 2022-01-06 11:18:51
+ * @Last Modified time: 2022-01-12 10:25:46
  */
 import { ReactNode } from "react";
 import { RadioItem, Select, Option } from "../../common";
@@ -50,6 +50,7 @@ export const CouponGroup: React.FC<CouponGroupPropTypes> = ({
     onChange={(value, extendValue) => value && onChange(value[0], extendValue)}
     isMultipleChoice={false}
     disabled={disabled}
+    newValuetriggersOnChange={false}
   >
     {children}
   </Select>

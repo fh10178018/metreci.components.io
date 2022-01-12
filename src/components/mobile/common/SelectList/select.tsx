@@ -2,7 +2,7 @@
  * @Author: HanFang
  * @Date: 2021-12-02 10:23:28
  * @Last Modified by: HanFang
- * @Last Modified time: 2022-01-06 11:19:53
+ * @Last Modified time: 2022-01-12 10:22:16
  */
 import React, { ReactNode } from "react";
 import { SelectContextProvider } from "./context";
@@ -14,6 +14,7 @@ interface SelectPropTypes {
   children?: ReactNode;
   isMultipleChoice?: boolean; // 是否是多选
   disabled?: boolean; // 禁止所有选项
+  newValuetriggersOnChange?: boolean; // 是否新值才会触发onChange
 }
 
 const Select: React.FC<SelectPropTypes> = ({
@@ -22,11 +23,14 @@ const Select: React.FC<SelectPropTypes> = ({
   children,
   isMultipleChoice = true,
   disabled = false,
+  newValuetriggersOnChange = true,
 }: SelectPropTypes) => {
   const handleActiveChange: OnChangePropType = (value, extendValue) => {
-    if (activeValue.join(",") !== value.join(",")) {
+    if (activeValue.join(",") !== value.join(",") && newValuetriggersOnChange) {
       // 新旧值对比，不相同时触发 onChange
-
+      onChange(isMultipleChoice ? value : value.slice(-1), extendValue);
+    }
+    if (!newValuetriggersOnChange) {
       onChange(isMultipleChoice ? value : value.slice(-1), extendValue);
     }
   };
