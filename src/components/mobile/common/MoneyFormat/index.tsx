@@ -2,7 +2,7 @@
  * @Author: HanFang
  * @Date: 2021-12-06 14:26:15
  * @Last Modified by: HanFang
- * @Last Modified time: 2022-01-12 20:02:34
+ * @Last Modified time: 2022-01-14 18:11:41
  */
 
 import { ReactNode, useRef, RefObject, useState, useEffect } from "react";
@@ -11,31 +11,43 @@ import { useDebounce, usePrevious } from "../../../utils/common";
 import { maskZIndex } from "../../constants/zIndexManage";
 import { RollGroup, RollItem, ShowWindow } from "./styled";
 
-export interface ITsExampleProps {
-  amount?: number;
-  children?: ReactNode;
-  callBack?: () => void;
-  disabled?: boolean;
-  zIndex?: number;
+export interface MoneyFormatPropTypes {
+  amount?: string; // 因为 .00这种数字无法保留，所以传string
 }
 
-const MoneyFormat = ({
-  amount = 0,
-  children,
-  callBack,
-  zIndex = maskZIndex,
-  disabled = false,
-}: ITsExampleProps) => {
-  const amountStr = amount.toString();
-  const oldAmountStr = usePrevious(amountStr);
-  const amountStrArray = amountStr.split("");
-
-  return <div></div>;
+const MoneyFormat: React.FC<MoneyFormatPropTypes> = ({
+  amount,
+}: MoneyFormatPropTypes) => {
+  if (amount !== undefined) {
+    const amountStrArray = amount.split("");
+    const hasSmallNumber = amount.indexOf(".") !== -1;
+    const numLen = hasSmallNumber
+      ? amountStrArray.length - 1
+      : amountStrArray.length;
+    return (
+      <div>
+        {amountStrArray.map((item, index) => {
+          if (item === ".") return <ShowWindow>.</ShowWindow>;
+          return (
+            <NumberRollItem
+              key={index}
+              number={item}
+              delay={(numLen - index) * 100}
+              changeKey={Date.now()}
+            />
+          );
+        })}
+      </div>
+    );
+  }
+  return <></>;
 };
 
 interface NumberRollItemPropTypes {
   number: string;
-  time: number;
+  time?: number;
+  delay?: number;
+  changeKey?: number;
 }
 
 const resourceData = [
@@ -62,54 +74,73 @@ const resourceData = [
 ];
 
 export const NumberRollItem: React.FC<NumberRollItemPropTypes> = ({
-  number = "9",
-  time = 500,
+  number = "0",
+  time = 400,
+  delay = 0,
+  changeKey,
 }: NumberRollItemPropTypes) => {
   const groupRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({
     width: 0,
     height: 0,
   });
-  useEffect(() => {
-    if (groupRef.current) {
-      setSize({
-        width: groupRef.current.offsetWidth + 1,
-        height: groupRef.current.offsetHeight / 20,
-      });
-    }
-  }, [groupRef]);
+
   const [y, setY] = useState(0);
   const [showAnimation, setShowAnimation] = useState(false);
   const oldNumber = usePrevious(number);
 
-  useEffect(() => {
-    console.log(oldNumber, number);
-    if (oldNumber > number) {
-      console.log(size.height * (9 - +number));
-      // 值变小，要向上滚动，直接到指定地点就行
+  const handleSetSize = (width: number, height: number) => {
+    width = width + 1;
+    height = height / 20;
+    setSize({
+      width,
+      height,
+    });
+    return { width, height };
+  };
+
+  const handlePosition = (
+    height: number,
+    number: string,
+    oldNumber: string
+  ) => {
+    if (oldNumber < number) {
+      // 值变大，要向上滚动，直接到指定地点就行
       setShowAnimation(true);
-      setY(size.height * (9 - +number));
+      setY(height * +number);
     }
-    if (oldNumber <= number) {
-      // 值变大或相等，任然要向上滚动
+    if (oldNumber >= number) {
+      // 值变小或相等，任然要向上滚动，
       setShowAnimation(true);
-      setY(size.height * (19 - +number));
+      setY(height * (10 + +number));
     }
-    // 滚动完，还原到前面
+    if (oldNumber === undefined) {
+      // oldNumber 为undefined, 则是刚挂载组件
+      setY(height * +number);
+    }
+    // 滚动完，还原到前面的周期，同时无动画还原
     const timer = setTimeout(() => {
       setShowAnimation(false);
-      // setY(size.height * (9 - +number));
+      setY(height * +number);
       clearTimeout(timer);
-    }, time + 100);
-  }, [number]);
+    }, time + delay);
+  };
+
+  useEffect(() => {
+    if (groupRef.current) {
+      const { offsetWidth, offsetHeight } = groupRef.current;
+      const { height } = handleSetSize(offsetWidth, offsetHeight); // 获取大小，因为字体大小不一定的原因，这里直接通过ref获取
+      handlePosition(height, number, oldNumber); // 动画的根基所在
+    }
+  }, [number, changeKey, groupRef]);
   return (
     <ShowWindow style={size}>
       <RollGroup
         ref={groupRef}
         style={{
-          transform: `translateY(${y}px)`,
+          transform: `translateY(${-y}px)`,
           transition: showAnimation
-            ? `transform ${time}ms ease-in-out`
+            ? `transform ${time}ms ease-in-out ${delay}ms`
             : "unset",
         }}
       >

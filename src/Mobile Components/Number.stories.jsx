@@ -1,17 +1,17 @@
-import { NumberRollItem } from "../components/mobile/common/MoneyFormat";
+import MoneyFormat from "../components/mobile/common/MoneyFormat";
 import base from "paths.macro";
 import { parameters } from "./utils";
 import { useState } from "react";
 
 export default {
   title: `${base.replace("/src/", "")}MoneyFormat`,
-  component: Image,
+  component: MoneyFormat,
   parameters: parameters,
   argTypes: {
-    number: {
+    amount: {
       description: "图片地址",
       type: "string",
-      defaultValue: "0",
+      defaultValue: 320.23,
     },
     alt: {
       description: "图片介绍",
@@ -51,7 +51,7 @@ const Template = (args) => {
       <h3>👇以下是比较常用的功能性Icon👇</h3>
       <h5>点击复制组件</h5>
       <div>
-        <NumberRollItem number={args.number + ""} />
+        <MoneyFormat {...args} />
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ export const RollGroup = styled.div`
   display: inline-flex;
   flex-direction: column;
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
 `;
 
