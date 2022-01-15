@@ -9,35 +9,20 @@ export default {
   parameters: parameters,
   argTypes: {
     amount: {
-      description: "图片地址",
+      description: "金额",
       type: "string",
-      defaultValue: 320.23,
+      defaultValue: "320.23",
     },
-    alt: {
-      description: "图片介绍",
-      type: "string",
-    },
-    width: {
-      size: "定义图片大小",
+    size: {
+      size: "自定义字体大小",
       type: "number",
       control: {
         type: "range",
         step: 1,
         min: 10,
-        max: 999,
+        max: 200,
       },
-      defaultValue: 634,
-    },
-    height: {
-      size: "定义图片高度",
-      type: "number",
-      control: {
-        type: "range",
-        step: 1,
-        min: 10,
-        max: 999,
-      },
-      defaultValue: 304,
+      defaultValue: 120,
     },
   },
 };
@@ -48,8 +33,7 @@ const Template = (args) => {
   const [state, setState] = useState(0);
   return (
     <div style={{ textAlign: "center" }}>
-      <h3>👇以下是比较常用的功能性Icon👇</h3>
-      <h5>点击复制组件</h5>
+      <h3>👇下面是金额变动组件👇</h3>
       <div>
         <MoneyFormat {...args} />
       </div>
