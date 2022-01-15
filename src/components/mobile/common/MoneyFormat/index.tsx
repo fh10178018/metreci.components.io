@@ -5,11 +5,9 @@
  * @Last Modified time: 2022-01-15 10:02:39
  */
 
-import { ReactNode, useRef, RefObject, useState, useEffect } from "react";
-import styled from "styled-components";
-import { useDebounce, usePrevious } from "../../../utils/common";
+import { useRef, useState, useEffect } from "react";
+import { usePrevious } from "../../../utils/common";
 import { rem } from "../../constants/rem";
-import { maskZIndex } from "../../constants/zIndexManage";
 import { RollGroup, RollItem, ShowWindow, Wrapper } from "./styled";
 
 export interface MoneyFormatPropTypes {
