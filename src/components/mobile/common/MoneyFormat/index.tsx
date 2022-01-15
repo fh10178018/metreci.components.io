@@ -2,30 +2,36 @@
  * @Author: HanFang
  * @Date: 2021-12-06 14:26:15
  * @Last Modified by: HanFang
- * @Last Modified time: 2022-01-14 18:11:41
+ * @Last Modified time: 2022-01-15 10:02:39
  */
 
 import { ReactNode, useRef, RefObject, useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDebounce, usePrevious } from "../../../utils/common";
+import { rem } from "../../constants/rem";
 import { maskZIndex } from "../../constants/zIndexManage";
-import { RollGroup, RollItem, ShowWindow } from "./styled";
+import { RollGroup, RollItem, ShowWindow, Wrapper } from "./styled";
 
 export interface MoneyFormatPropTypes {
   amount?: string; // 因为 .00这种数字无法保留，所以传string
+  className?: string; // 自定义金额样式
+  size?: number; // 字体大小
 }
 
 const MoneyFormat: React.FC<MoneyFormatPropTypes> = ({
-  amount,
+  amount = "",
+  className,
+  size = 32,
 }: MoneyFormatPropTypes) => {
   if (amount !== undefined) {
+    const curSize = rem(size + "px");
     const amountStrArray = amount.split("");
     const hasSmallNumber = amount.indexOf(".") !== -1;
     const numLen = hasSmallNumber
       ? amountStrArray.length - 1
       : amountStrArray.length;
     return (
-      <div>
+      <Wrapper className={className} size={curSize}>
         {amountStrArray.map((item, index) => {
           if (item === ".") return <ShowWindow>.</ShowWindow>;
           return (
@@ -37,7 +43,7 @@ const MoneyFormat: React.FC<MoneyFormatPropTypes> = ({
             />
           );
         })}
-      </div>
+      </Wrapper>
     );
   }
   return <></>;
