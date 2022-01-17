@@ -5,20 +5,20 @@
  * @Last Modified time: 2022-01-15 10:02:39
  */
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, CSSProperties, memo } from "react";
 import { usePrevious } from "../../../utils/common";
 import { rem } from "../../constants/rem";
 import { RollGroup, RollItem, ShowWindow, Wrapper } from "./styled";
 
 export interface MoneyFormatPropTypes {
   amount?: string; // 因为 .00这种数字无法保留，所以传string
-  className?: string; // 自定义金额样式
-  size?: number; // 字体大小
+  style?: CSSProperties; // 自定义金额样式
+  size?: number; // 字体大小，设计图大小
 }
 
 const MoneyFormat: React.FC<MoneyFormatPropTypes> = ({
   amount = "",
-  className,
+  style,
   size = 32,
 }: MoneyFormatPropTypes) => {
   if (amount !== undefined) {
@@ -29,7 +29,7 @@ const MoneyFormat: React.FC<MoneyFormatPropTypes> = ({
       ? amountStrArray.length - 1
       : amountStrArray.length;
     return (
-      <Wrapper className={className} size={curSize}>
+      <Wrapper style={style} size={curSize}>
         {amountStrArray.map((item, index) => {
           if (item === ".") return <ShowWindow>.</ShowWindow>;
           return (
@@ -77,12 +77,14 @@ const resourceData = [
   "9",
 ];
 
+// 单个数字的滚动
 export const NumberRollItem: React.FC<NumberRollItemPropTypes> = ({
   number = "0",
   time = 400,
   delay = 0,
   changeKey,
 }: NumberRollItemPropTypes) => {
+  console.log(number, "amount");
   const groupRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({
     width: 0,
@@ -94,7 +96,7 @@ export const NumberRollItem: React.FC<NumberRollItemPropTypes> = ({
   const oldNumber = usePrevious(number);
 
   const handleSetSize = (width: number, height: number) => {
-    width = width + 1;
+    width = width;
     height = height / 20;
     setSize({
       width,
@@ -156,4 +158,12 @@ export const NumberRollItem: React.FC<NumberRollItemPropTypes> = ({
   );
 };
 
-export default MoneyFormat;
+function areEqual(
+  prevProps: MoneyFormatPropTypes,
+  nextProps: MoneyFormatPropTypes
+) {
+  // 金额不变，没有动画
+  return prevProps.amount === nextProps.amount;
+}
+
+export default memo(MoneyFormat, areEqual);
