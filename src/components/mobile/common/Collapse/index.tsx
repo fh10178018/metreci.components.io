@@ -60,15 +60,20 @@ const Collapse: FC<CollapsePropTypes> = ({
       },
     ];
   };
+  let timer: NodeJS.Timeout;
   useEffect(() => {
     if (previousChildren && !children) {
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         setCurChildren(children);
         clearTimeout(timer);
       }, animationTime);
     } else {
       setCurChildren(children);
     }
+    return () => {
+      // FIX: 组件销毁时，销毁计时器
+      clearTimeout(timer);
+    };
   });
   return (
     <TransitionMotion willEnter={willEnter} styles={getStyles()}>

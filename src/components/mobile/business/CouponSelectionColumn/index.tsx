@@ -50,7 +50,7 @@ export const CouponGroup: React.FC<CouponGroupPropTypes> = ({
     onChange={(value, extendValue) => value && onChange(value[0], extendValue)}
     isMultipleChoice={false}
     disabled={disabled}
-    newValuetriggersOnChange={false}
+    newValueTriggersOnChange={false}
   >
     {children}
   </Select>

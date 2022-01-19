@@ -31,7 +31,7 @@ interface PaymentSelectionColumnGroupPropTypes {
   onChange: (value: number | string, extendValue: any) => void;
   children?: ReactNode;
   disabled?: boolean;
-  newValuetriggersOnChange?: boolean;
+  newValueTriggersOnChange?: boolean;
 }
 
 export const PaymentSelectionColumnGroup: React.FC<
@@ -41,14 +41,14 @@ export const PaymentSelectionColumnGroup: React.FC<
   onChange,
   children,
   disabled = false,
-  newValuetriggersOnChange = true,
+  newValueTriggersOnChange = true,
 }: PaymentSelectionColumnGroupPropTypes) => (
   <Select
     activeValue={[activeValue]}
     onChange={(value, extendValue) => value && onChange(value[0], extendValue)}
     isMultipleChoice={false}
     disabled={disabled}
-    newValuetriggersOnChange={newValuetriggersOnChange}
+    newValueTriggersOnChange={newValueTriggersOnChange}
   >
     {children}
   </Select>

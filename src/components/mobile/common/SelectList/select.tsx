@@ -14,7 +14,7 @@ interface SelectPropTypes {
   children?: ReactNode;
   isMultipleChoice?: boolean; // 是否是多选
   disabled?: boolean; // 禁止所有选项
-  newValuetriggersOnChange?: boolean; // 是否新值才会触发onChange
+  newValueTriggersOnChange?: boolean; // 是否新值才会触发onChange
 }
 
 const Select: React.FC<SelectPropTypes> = ({
@@ -23,14 +23,14 @@ const Select: React.FC<SelectPropTypes> = ({
   children,
   isMultipleChoice = true,
   disabled = false,
-  newValuetriggersOnChange = true,
+  newValueTriggersOnChange = true,
 }: SelectPropTypes) => {
   const handleActiveChange: OnChangePropType = (value, extendValue) => {
-    if (activeValue.join(",") !== value.join(",") && newValuetriggersOnChange) {
+    if (activeValue.join(",") !== value.join(",") && newValueTriggersOnChange) {
       // 新旧值对比，不相同时触发 onChange
       onChange(isMultipleChoice ? value : value.slice(-1), extendValue);
     }
-    if (!newValuetriggersOnChange) {
+    if (!newValueTriggersOnChange) {
       onChange(isMultipleChoice ? value : value.slice(-1), extendValue);
     }
   };
